@@ -1,11 +1,11 @@
 {
-  "name": "chrome-extension-boilerplate-react",
-  "version": "4.3.5",
-  "description": "A chrome extension boilerplate built with React 17, Webpack 5, and Webpack Dev Server 4",
+  "name": "ppdns-chrome-extension",
+  "version": "1.0.0",
+  "description": "",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/lxieyang/chrome-extension-boilerplate-react.git"
+    "url": "https://github.com/polyswarm/ppdns-chrome-extension"
   },
   "scripts": {
     "build": "node utils/build.js",
@@ -16,7 +16,8 @@
     "@hot-loader/react-dom": "^17.0.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-hot-loader": "^4.13.0"
+    "react-hot-loader": "^4.13.0",
+    "use-chrome-storage": "^1.0.6"
   },
   "devDependencies": {
     "@babel/core": "^7.17.0",

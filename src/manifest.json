@@ -1,9 +1,17 @@
 {
   "manifest_version": 3,
-  "name": "Chrome Extension with React & Webpack",
-  "description": "A chrome extension boilerplate built with React 17, Webpack 5, and Webpack Dev Server 4",
+  "name": "PolySwarm in Browser",
+  "description": "Earn NCT for contributing cyber security data",
   "options_page": "options.html",
   "background": { "service_worker": "background.bundle.js" },
+  "permissions": [
+    "webRequest",
+    "declarativeNetRequest",
+    "contextMenus",
+    "downloads",
+    "storage"
+  ],
+  "host_permissions": ["\u003Call_urls>"],
   "action": {
     "default_popup": "popup.html",
     "default_icon": "icon-34.png"

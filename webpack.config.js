@@ -197,7 +197,8 @@ var options = {
 };
 
 if (env.NODE_ENV === 'development') {
-  options.devtool = 'cheap-module-source-map';
+  options.devtool = 'inline-source-map';
+  // options.devtool = 'cheap-module-source-map';
 } else {
   options.optimization = {
     minimize: true,

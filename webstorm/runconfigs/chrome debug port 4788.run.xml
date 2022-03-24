@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="chrome debug port 4788" type="ChromiumRemoteDebugType" factoryName="Chromium Remote" port="4788">
+    <mapping url="webpack://." local-file="$PROJECT_DIR$" />
+    <mapping url="http://localhost:3001" local-file="$PROJECT_DIR$/build" />
+    <method v="2" />
+  </configuration>
+</component>
