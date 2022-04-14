@@ -1,11 +1,10 @@
 import React from 'react';
 import logo from '../../assets/img/logo.svg';
-import { createChromeStorageStateHookLocal } from 'use-chrome-storage';
 import './Popup.css';
 import { useSettingsStore } from '../../common/settings';
 
 const Popup = () => {
-  const [settings, setSettings, isPersistent, error] = useSettingsStore();
+  const [settings, setSettings] = useSettingsStore();
 
   const handleChange = (event) => {
     setSettings((prevState) => {
@@ -13,29 +12,35 @@ const Popup = () => {
     });
   };
 
+  settings.apiKeyValidated = true; // TODO: actual validation in background class
+
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <form>
-          <input
-            type="text"
-            name="apiKey"
-            value={settings.apiKey}
-            onChange={handleChange}
-            placeholder="hex api key"
-            aria-label="hex api key"
-          />
-          <input type="submit" value="OK" />
+          <div
+            id="apiKeyWrapper"
+            className={
+              settings.apiKey && !settings.apiKeyValidated ? 'invalid' : ''
+            }
+          >
+            <input
+              type="text"
+              name="apiKey"
+              placeholder="  "
+              value={settings.apiKey}
+              onChange={handleChange}
+            />
+            <label class="api-key-label">API Key</label>
+            {settings.apiKey && !settings.apiKeyValidated && (
+              <label class="invalid message">Invalid</label>
+            )}
+            {settings.apiKey && settings.apiKeyValidated && (
+              <label class="valid message">Valid</label>
+            )}
+          </div>
         </form>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React!
-        </a>
       </header>
     </div>
   );
