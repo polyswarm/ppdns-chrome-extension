@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 export const SETTINGS_KEY = 'settings';
 export const INITIAL_VALUE = {
   apiKey: '',
+  apiKeyValidated: false,
 };
 
 export const useSettingsStore = createChromeStorageStateHookLocal(

@@ -1,18 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import logo from '../../assets/img/logo.svg';
 import './Popup.css';
 import { useSettingsStore } from '../../common/settings';
 
 const Popup = () => {
   const [settings, setSettings] = useSettingsStore();
-
+  const [valid, setValid] = useState('');
   const handleChange = (event) => {
-    setSettings((prevState) => {
-      return { ...prevState, [event.target.name]: event.target.value };
+    validateAPIKey(event.target.value).then((valid) => {
+      if (valid) {
+        setSettings((prevState) => {
+          return { ...prevState, apiKey: event.target.value };
+        });
+      }
+      setValid(valid);
     });
   };
-
-  settings.apiKeyValidated = true; // TODO: actual validation in background class
 
   return (
     <div className="App">
@@ -21,22 +24,20 @@ const Popup = () => {
         <form>
           <div
             id="apiKeyWrapper"
-            className={
-              settings.apiKey && !settings.apiKeyValidated ? 'invalid' : ''
-            }
+            className={settings.apiKey && !valid ? 'invalid' : ''}
           >
             <input
               type="text"
               name="apiKey"
               placeholder="  "
-              value={settings.apiKey}
+              defaultValue={settings.apiKey}
               onChange={handleChange}
             />
             <label class="api-key-label">API Key</label>
-            {settings.apiKey && !settings.apiKeyValidated && (
+            {settings.apiKey && valid == false && (
               <label class="invalid message">Invalid</label>
             )}
-            {settings.apiKey && settings.apiKeyValidated && (
+            {settings.apiKey && valid && (
               <label class="valid message">Valid</label>
             )}
           </div>
@@ -45,5 +46,13 @@ const Popup = () => {
     </div>
   );
 };
+
+async function validateAPIKey(apiKey) {
+  var APIKEYMGMT_BASE_URL = 'http://apikeymgmt-e2e:5000';
+
+  return await fetch(`${APIKEYMGMT_BASE_URL}/v1/accounts?api_key=${apiKey}`)
+    .then((response) => response.ok)
+    .catch((error) => console.log('error', error));
+}
 
 export default Popup;
