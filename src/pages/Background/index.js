@@ -64,14 +64,14 @@ class PpdnsBackground {
       return;
     }
 
-    let baseUrl = 'http://localhost:9696/v3/ppdns';
+    let baseUrl = process.env.AI_BASE_URL;
     let headers = {
       // todo grab from settings!
       Authorization: apiK,
       'Content-Type': 'application/json',
     };
     // todo wanted to use axios, but it needs fetch adapter
-    fetch(baseUrl + '/ingest/', {
+    fetch(baseUrl + '/v3/ppdns/ingest/', {
       method: 'POST',
       headers: headers,
       body: JSON.stringify(data),

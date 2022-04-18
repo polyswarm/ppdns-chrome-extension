@@ -5,15 +5,17 @@ import { useSettingsStore } from '../../common/settings';
 
 const Popup = () => {
   const [settings, setSettings] = useSettingsStore();
-  const [valid, setValid] = useState('');
+  const [valid, setValid] = useState(!!settings.apiKey);
+  const [apiKey, setApiKey] = useState(settings.apiKey);
   const handleChange = (event) => {
+    setApiKey(event.target.value);
     validateAPIKey(event.target.value).then((valid) => {
+      setValid(valid);
       if (valid) {
-        setSettings((prevState) => {
+        return setSettings((prevState) => {
           return { ...prevState, apiKey: event.target.value };
         });
       }
-      setValid(valid);
     });
   };
 
@@ -34,12 +36,10 @@ const Popup = () => {
               onChange={handleChange}
             />
             <label class="api-key-label">API Key</label>
-            {settings.apiKey && valid == false && (
+            {apiKey && apiKey.length && !valid && (
               <label class="invalid message">Invalid</label>
             )}
-            {settings.apiKey && valid && (
-              <label class="valid message">Valid</label>
-            )}
+            {apiKey && valid && <label class="valid message">Valid</label>}
           </div>
         </form>
       </header>
@@ -48,7 +48,7 @@ const Popup = () => {
 };
 
 async function validateAPIKey(apiKey) {
-  var APIKEYMGMT_BASE_URL = 'http://apikeymgmt-e2e:5000';
+  var APIKEYMGMT_BASE_URL = process.env.APIKEYMGMT_BASE_URL;
   if (!apiKey || apiKey.length != 32) {
     return false;
   }
