@@ -4,6 +4,7 @@ class PpdnsBackground {
   constructor() {
     this.ppdnsL = new Map();
     this.ppdnsBatchSize = 10;
+    this.submitInProgress = false;
     // todo set from settings/opts
   }
 
@@ -42,12 +43,12 @@ class PpdnsBackground {
 
   submitPpdnsBatch() {
     /* TODO ttl on ppdns resolutions ... there are alot of same IPs and this is rather high volume, almost want a bloom ttl */
-
     /* todo throw error on API key fail */
     chrome.storage.local.get(SETTINGS_KEY, this.cbX.bind(this));
   }
 
   cbX(result) {
+    this.submitInProgress = true;
     let data = {
       resolutions: Array.from(this.ppdnsL.values()),
     };
@@ -78,11 +79,14 @@ class PpdnsBackground {
     })
       .then((response) => response.json())
       .then((data) => {
-        this.ppdnsL.clear();
         console.log(data);
       })
       .catch((error) => {
         console.error('Error posting ingest: ', error);
+      })
+      .finally(() => {
+        this.ppdnsL.clear();
+        this.submitInProgress = false;
       });
   }
 
