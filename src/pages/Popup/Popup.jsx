@@ -49,6 +49,9 @@ const Popup = () => {
 
 async function validateAPIKey(apiKey) {
   var APIKEYMGMT_BASE_URL = 'http://apikeymgmt-e2e:5000';
+  if (!apiKey || apiKey.length != 32) {
+    return false;
+  }
 
   return await fetch(`${APIKEYMGMT_BASE_URL}/v1/accounts?api_key=${apiKey}`)
     .then((response) => response.ok)
