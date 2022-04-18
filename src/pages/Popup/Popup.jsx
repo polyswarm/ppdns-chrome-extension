@@ -35,11 +35,11 @@ const Popup = () => {
               defaultValue={settings.apiKey}
               onChange={handleChange}
             />
-            <label class="api-key-label">API Key</label>
+            <label className="api-key-label">API Key</label>
             {apiKey && apiKey.length && !valid && (
-              <label class="invalid message">Invalid</label>
+              <label className="invalid message">Invalid</label>
             )}
-            {apiKey && valid && <label class="valid message">Valid</label>}
+            {apiKey && valid && <label className="valid message">Valid</label>}
           </div>
         </form>
       </header>
