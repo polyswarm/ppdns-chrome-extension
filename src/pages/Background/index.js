@@ -14,7 +14,7 @@ class PpdnsBackground {
     // todo filter extension
     let hostname = url.hostname;
     if (!['http:', 'https:', 'ws:', 'wss:'].includes(url.protocol)) {
-      console.log('dropping scheme: ' + url.protocol);
+      console.warn('dropping scheme: ' + url.protocol);
       return null;
     }
 
@@ -32,11 +32,8 @@ class PpdnsBackground {
         ip_address: webRequestBody.ip,
       },
     });
-    console.log('resolution: ' + hostname + ' ' + webRequestBody.ip);
+    console.info('resolution: ' + hostname + ' ' + webRequestBody.ip);
     if (this.ppdnsL.size >= this.ppdnsBatchSize) {
-      /* todo write sending function */
-      /* todo get response and update contribution data per request */
-      console.log('would log: ' + this.ppdnsL.size);
       this.submitPpdnsBatch();
     }
   }
@@ -56,12 +53,12 @@ class PpdnsBackground {
       typeof result.settings === 'undefined' ||
       typeof result.settings.apiKey === 'undefined'
     ) {
-      console.log('no settings in local store');
+      console.error('no settings in local store');
       return;
     }
     let apiKey = result.settings ? result.settings.apiKey : '';
     if (apiKey === undefined || apiKey == '') {
-      console.log('failed to get API key from local storage');
+      console.error('failed to get API key from local storage');
       return;
     }
 
@@ -78,9 +75,7 @@ class PpdnsBackground {
       body: JSON.stringify(data),
     })
       .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      })
+      .then((data) => console.info(data))
       .catch((error) => {
         console.error('Error posting ingest:', error);
       })
@@ -88,10 +83,6 @@ class PpdnsBackground {
         this.ppdnsL.clear();
         this.submitInProgress = false;
       });
-  }
-
-  updateSettings(result) {
-    // todo
   }
 }
 

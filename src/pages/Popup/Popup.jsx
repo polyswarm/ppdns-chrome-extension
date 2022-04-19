@@ -58,7 +58,7 @@ async function validateAPIKey(apiKey) {
     },
   })
     .then((response) => response.ok)
-    .catch((error) => console.log('error', error));
+    .catch((error) => console.error('error', error));
 }
 
 export default Popup;
