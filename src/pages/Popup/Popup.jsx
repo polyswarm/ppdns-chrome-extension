@@ -48,12 +48,15 @@ const Popup = () => {
 };
 
 async function validateAPIKey(apiKey) {
-  var APIKEYMGMT_BASE_URL = process.env.APIKEYMGMT_BASE_URL;
   if (!apiKey || apiKey.length != 32) {
     return false;
   }
 
-  return await fetch(`${APIKEYMGMT_BASE_URL}/v1/accounts?api_key=${apiKey}`)
+  return await fetch(`${process.env.AI_BASE_URL}/v2/instance`, {
+    headers: {
+      Authorization: apiKey,
+    },
+  })
     .then((response) => response.ok)
     .catch((error) => console.log('error', error));
 }
