@@ -82,7 +82,7 @@ class PpdnsBackground {
         console.log(data);
       })
       .catch((error) => {
-        console.error('Error posting ingest: ', error);
+        console.error('Error posting ingest:', error);
       })
       .finally(() => {
         this.ppdnsL.clear();
