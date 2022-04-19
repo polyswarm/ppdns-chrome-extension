@@ -59,16 +59,16 @@ class PpdnsBackground {
       console.log('no settings in local store');
       return;
     }
-    let apiK = result.settings ? result.settings.apiKey : '';
-    if (apiK === undefined || apiK == '') {
-      console.log('failed to get API k from local storage');
+    let apiKey = result.settings ? result.settings.apiKey : '';
+    if (apiKey === undefined || apiKey == '') {
+      console.log('failed to get API key from local storage');
       return;
     }
 
     let baseUrl = process.env.AI_BASE_URL;
     let headers = {
       // todo grab from settings!
-      Authorization: apiK,
+      Authorization: apiKey,
       'Content-Type': 'application/json',
     };
     // todo wanted to use axios, but it needs fetch adapter
