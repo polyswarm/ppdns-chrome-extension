@@ -16,22 +16,25 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - name: checkout
+        with:
+          ref: feature/DN5330-build
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
 
-      # - name: Build
-      #   run: |
+      - name: Build
+        run: |
+          npm install
+          npm run build
 
       - uses: actions/checkout@v3
       - name: Push
         run: |
-          npm install
-          npm run build
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git add .
+          git add ppdns-*.zip
           git commit -m "Pushing Build"
           git push
