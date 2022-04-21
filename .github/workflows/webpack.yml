@@ -1,5 +1,8 @@
 name: NodeJS with Webpack
 
+env:
+  AI_BASE_URL: http://artifact-index-e2e:9696 # TODO: set this to prod/stage/etc
+
 on:
   push:
     branches: [master]
