@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: macOS-latest
 
     strategy:
       matrix:
@@ -37,6 +37,8 @@ jobs:
         run: |
           npm install
           npm run build
+          xcrun safari-web-extension-converter ./build --project-location $PWD/safari --app-name ppdns --bundle-identifier ppdns --macos-only --copy-resources
+          zip -r ppdns-safari-extension-${{ steps.tag.outputs.release_tag }}.zip ./safari
 
       - name: Release
         uses: softprops/action-gh-release@v1
