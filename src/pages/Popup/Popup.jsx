@@ -1,15 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import logo from '../../assets/img/logo.svg';
-import { createChromeStorageStateHookLocal } from 'use-chrome-storage';
 import './Popup.css';
 import { useSettingsStore } from '../../common/settings';
 
 const Popup = () => {
-  const [settings, setSettings, isPersistent, error] = useSettingsStore();
-
+  const [settings, setSettings] = useSettingsStore();
+  const [valid, setValid] = useState(!!settings.apiKey);
+  const [apiKey, setApiKey] = useState(settings.apiKey);
   const handleChange = (event) => {
-    setSettings((prevState) => {
-      return { ...prevState, [event.target.name]: event.target.value };
+    setApiKey(event.target.value);
+    validateAPIKey(event.target.value).then((valid) => {
+      setValid(valid);
+      if (valid) {
+        return setSettings((prevState) => {
+          return { ...prevState, apiKey: event.target.value };
+        });
+      }
     });
   };
 
@@ -18,27 +24,41 @@ const Popup = () => {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <form>
-          <input
-            type="text"
-            name="apiKey"
-            value={settings.apiKey}
-            onChange={handleChange}
-            placeholder="hex api key"
-            aria-label="hex api key"
-          />
-          <input type="submit" value="OK" />
+          <div
+            id="apiKeyWrapper"
+            className={settings.apiKey && !valid ? 'invalid' : ''}
+          >
+            <input
+              type="text"
+              name="apiKey"
+              placeholder="  "
+              defaultValue={settings.apiKey}
+              onChange={handleChange}
+            />
+            <label className="api-key-label">API Key</label>
+            {apiKey && apiKey.length && !valid && (
+              <label className="invalid message">Invalid</label>
+            )}
+            {apiKey && valid && <label className="valid message">Valid</label>}
+          </div>
         </form>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React!
-        </a>
       </header>
     </div>
   );
 };
+
+async function validateAPIKey(apiKey) {
+  if (!apiKey || apiKey.length != 32) {
+    return false;
+  }
+
+  return await fetch(`${process.env.AI_BASE_URL}/v2/instance`, {
+    headers: {
+      Authorization: apiKey,
+    },
+  })
+    .then((response) => response.ok)
+    .catch((error) => console.error('error', error));
+}
 
 export default Popup;
