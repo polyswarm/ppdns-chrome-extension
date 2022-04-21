@@ -1,5 +1,5 @@
 {
-  "manifest_version": 3,
+  "manifest_version": 2,
   "name": "PolySwarm in Browser",
   "description": "Earn NCT for contributing cyber security data",
   "background": { "service_worker": "background.bundle.js" },

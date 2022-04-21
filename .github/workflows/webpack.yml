@@ -5,11 +5,11 @@ env:
 
 on:
   push:
-    branches: [master, feature/DN5330-build]
+    branches: [master]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: macOS-latest
 
     strategy:
       matrix:
@@ -18,7 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: feature/DN5330-build
+          ref: master
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
@@ -29,7 +29,7 @@ jobs:
           git config user.name github-actions
           git config user.email github-actions@github.com
           npm version minor
-          git push origin feature/DN5330-build
+          git push origin master
           git push --tags
           echo "::set-output name=release_tag::$(git describe --tags)"
 
@@ -37,6 +37,8 @@ jobs:
         run: |
           npm install
           npm run build
+          xcrun safari-web-extension-converter ./build --project-location $PWD/safari --app-name ppdns --bundle-identifier ppdns --macos-only --copy-resources
+          zip -r ppdns-safari-extension-${{ steps.tag.outputs.release_tag }}.zip ./safari
 
       - name: Release
         uses: softprops/action-gh-release@v1

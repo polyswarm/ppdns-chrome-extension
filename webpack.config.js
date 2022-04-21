@@ -108,7 +108,7 @@ var options = {
   plugins: [
     new ZipPlugin({
       path: '../',
-      filename: `ppdns-chrome-extension-${process.env.npm_package_version}.zip`,
+      filename: `ppdns-chrome-extension-v${process.env.npm_package_version}.zip`,
     }),
     new CleanWebpackPlugin({ verbose: false }),
     new webpack.ProgressPlugin(),
