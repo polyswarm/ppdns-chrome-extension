@@ -1,0 +1,36 @@
+name: NodeJS with Webpack
+
+env:
+  AI_BASE_URL: http://artifact-index-e2e:9696 # TODO: set this to prod/stage/etc
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master, feature/DN5330-build]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: feature/DN5330-build
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Build and Push
+        run: |
+          npm install
+          npm run build
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add ppdns-chrome-extension-1.0.0.zip
+          git commit -m "Pushing Build"
+          git push origin feature/DN5330-build
