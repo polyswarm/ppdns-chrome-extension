@@ -18,10 +18,20 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: master
+          ref: feature/DN5330-build
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+
+      - name: Tag
+        id: tag
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          npm version minor
+          git push origin feature/DN5330-build
+          git push --tags
+          echo "::set-output name=release_tag::$(git describe --tags)"
 
       - name: Build
         run: |
@@ -31,4 +41,5 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
+          tag_name: ${{ steps.tag.outputs.release_tag }}
           files: ppdns-*.zip
