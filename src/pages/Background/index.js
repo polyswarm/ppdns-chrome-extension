@@ -33,7 +33,7 @@ class PpdnsBackground {
       },
     });
     console.info('resolution: ' + hostname + ' ' + webRequestBody.ip);
-    if (this.ppdnsL.size >= this.ppdnsBatchSize) {
+    if (!this.submitInProgress && this.ppdnsL.size >= this.ppdnsBatchSize) {
       this.submitPpdnsBatch();
     }
   }
@@ -46,8 +46,11 @@ class PpdnsBackground {
 
   cbX(result) {
     this.submitInProgress = true;
+    // copy records and clear map immedietly, so we don't submit duplicates
+    let toSubmit = new Map(this.ppdnsL);
+    this.ppdnsL.clear();
     let data = {
-      resolutions: Array.from(this.ppdnsL.values()),
+      resolutions: Array.from(toSubmit.values()),
     };
     if (
       typeof result.settings === 'undefined' ||
@@ -80,7 +83,6 @@ class PpdnsBackground {
         console.error('Error posting ingest:', error);
       })
       .finally(() => {
-        this.ppdnsL.clear();
         this.submitInProgress = false;
       });
   }
