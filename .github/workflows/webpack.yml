@@ -30,6 +30,6 @@ jobs:
           npm run build
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git add .
+          git add ppdns-chrome-extension-1.0.0.zip
           git commit -m "Pushing Build"
           git push origin feature/DN5330-build
