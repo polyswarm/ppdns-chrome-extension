@@ -4,7 +4,8 @@ var webpack = require('webpack'),
   env = require('./utils/env'),
   CopyWebpackPlugin = require('copy-webpack-plugin'),
   HtmlWebpackPlugin = require('html-webpack-plugin'),
-  TerserPlugin = require('terser-webpack-plugin');
+  TerserPlugin = require('terser-webpack-plugin'),
+  ZipPlugin = require('zip-webpack-plugin');
 var { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const ASSET_PATH = process.env.ASSET_PATH || '/';
@@ -105,6 +106,10 @@ var options = {
       .concat(['.js', '.jsx', '.ts', '.tsx', '.css']),
   },
   plugins: [
+    new ZipPlugin({
+      path: '../',
+      filename: `ppdns-chrome-extension-v${process.env.npm_package_version}.zip`,
+    }),
     new CleanWebpackPlugin({ verbose: false }),
     new webpack.ProgressPlugin(),
     // expose and write the allowed env vars on the compiled bundle

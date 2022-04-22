@@ -1,0 +1,47 @@
+name: NodeJS with Webpack
+
+env:
+  AI_BASE_URL: http://artifact-index-e2e:9696 # TODO: set this to prod/stage/etc
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: macOS-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: master
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Tag
+        id: tag
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          npm version minor
+          git push origin master
+          git push --tags
+          echo "::set-output name=release_tag::$(git describe --tags)"
+
+      - name: Build
+        run: |
+          npm install
+          npm run build
+          xcrun safari-web-extension-converter ./build --project-location $PWD/safari --app-name ppdns --bundle-identifier ppdns --macos-only --copy-resources
+          zip -r ppdns-safari-extension-${{ steps.tag.outputs.release_tag }}.zip ./safari
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.tag.outputs.release_tag }}
+          files: ppdns-*.zip
