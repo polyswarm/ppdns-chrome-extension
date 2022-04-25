@@ -43,6 +43,16 @@ the [build](build) folder.
 
 https://developer.chrome.com/docs/extensions/mv3/tut_debugging/
 
+# Creating a Release
+
+We use GitHub Actions to build and create releases automatically on push of a new tag.
+
+```
+$ npm version patch
+v1.0.1
+$ git push origin v1.0.1
+```
+
 # User Data
 
 It appears from Google analytics that 95% of our browser traffic to `.io` and `.network` is
