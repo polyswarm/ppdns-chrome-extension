@@ -1,8 +1,7 @@
 name: NodeJS with Webpack
 
 env:
-  AI_BASE_URL: http://artifact-index-e2e:9696 # TODO: set this to prod/stage/etc
-
+  AI_BASE_URL: https://api.stage-new.polyswarm.network
 on:
   push:
     tags: [v*]
@@ -32,8 +31,9 @@ jobs:
         run: |
           npm install
           npm run build
-          xcrun safari-web-extension-converter ./build --project-location $PWD/safari --app-name ppdns --bundle-identifier ppdns --macos-only --copy-resources
-          zip -r ppdns-safari-extension-${{ steps.tag_name.outputs.tag }}.zip ./safari
+          # Disable safari build because it only supports safari 12 and below
+          # xcrun safari-web-extension-converter ./build --project-location $PWD/safari --app-name ppdns --bundle-identifier ppdns --macos-only --copy-resources
+          # zip -r ppdns-safari-extension-${{ steps.tag_name.outputs.tag }}.zip ./safari
 
       - name: Release
         uses: softprops/action-gh-release@v1
