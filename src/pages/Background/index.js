@@ -3,9 +3,8 @@ import { SETTINGS_KEY } from '../../common/settings';
 class PpdnsBackground {
   constructor() {
     this.ppdnsL = new Map();
-    this.ppdnsBatchSize = 10;
+    this.ppdnsBatchSize = process.env.BATCH_SIZE;
     this.submitInProgress = false;
-    // todo set from settings/opts
   }
 
   logPpdnsRequest(webRequestBody) {
