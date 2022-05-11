@@ -56,11 +56,13 @@ class PpdnsBackground {
       typeof result.settings.apiKey === 'undefined'
     ) {
       console.error('no settings in local store');
+      this.submitInProgress = false;
       return;
     }
     let apiKey = result.settings ? result.settings.apiKey : '';
     if (apiKey === undefined || apiKey == '') {
       console.error('failed to get API key from local storage');
+      this.submitInProgress = false;
       return;
     }
 
