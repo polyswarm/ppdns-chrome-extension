@@ -113,7 +113,7 @@ var options = {
     new CleanWebpackPlugin({ verbose: false }),
     new webpack.ProgressPlugin(),
     // expose and write the allowed env vars on the compiled bundle
-    new webpack.EnvironmentPlugin(['NODE_ENV', 'AI_BASE_URL']),
+    new webpack.EnvironmentPlugin(['NODE_ENV', 'AI_BASE_URL', 'BATCH_SIZE']),
     new CopyWebpackPlugin({
       patterns: [
         {

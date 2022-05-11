@@ -2,6 +2,7 @@ name: NodeJS with Webpack
 
 env:
   AI_BASE_URL: https://api.polyswarm.network
+  BATCH_SIZE: 10
 on:
   push:
     tags: [v*]
