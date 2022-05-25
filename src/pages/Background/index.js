@@ -93,9 +93,11 @@ let ppdnsBG = new PpdnsBackground();
 let logPpdnsHndlr = ppdnsBG.logPpdnsRequest.bind(ppdnsBG);
 chrome.webNavigation.onBeforeNavigate.addListener(
   () => {
-    chrome.webRequest.onResponseStarted.addListener(logPpdnsHndlr, {
-      urls: ['<all_urls>'],
-    });
+    if (!chrome.webRequest.onResponseStarted.hasListener(logPpdnsHndlr)) {
+      chrome.webRequest.onResponseStarted.addListener(logPpdnsHndlr, {
+        urls: ['<all_urls>'],
+      });
+    }
   },
   { urls: ['<all_urls>'] }
 );
