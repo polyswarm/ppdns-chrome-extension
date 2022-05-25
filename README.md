@@ -2,17 +2,19 @@
 
 A browser extension intended to collect and send security relevant data to PolySwarm, in exchange for distributing rewards in the form of [NCT](https://polyswarm.io/aboutnct) tokens.
 
-#### Requirements
+## Requirements
 
-- Crome
-- Download and extract the `ppdns-chrome-extension-<version>.zip` archive from this repository.
+- Chrome
+- The latest version of the `ppdns-chrome-extension` .zip archive from this repository.
+  - To download, click on `Releases` in the right-side column. Then in the `Assets` section of the latest version, download the `ppdns-chrome-extension-v<version>.zip` file.
 
 ## Installation
 
-1. Open Chrome and access `chrome://extensions/`
-2. Check `Developer mode`
-3. Click on `Load unpacked extension`
-4. Select the folder you unzipped earlier.
+1. Unzip the `ppdns-chrome-extension-v<version>-zip` file.
+2. Open Chrome and access `chrome://extensions/`
+3. Check `Developer mode`
+4. Click on `Load unpacked extension`
+5. Select the folder you unzipped earlier.
 
 ## Setup
 
