@@ -91,6 +91,13 @@ class PpdnsBackground {
 
 let ppdnsBG = new PpdnsBackground();
 let logPpdnsHndlr = ppdnsBG.logPpdnsRequest.bind(ppdnsBG);
-chrome.webRequest.onResponseStarted.addListener(logPpdnsHndlr, {
-  urls: ['<all_urls>'],
-});
+chrome.webNavigation.onBeforeNavigate.addListener(
+  () => {
+    if (!chrome.webRequest.onResponseStarted.hasListener(logPpdnsHndlr)) {
+      chrome.webRequest.onResponseStarted.addListener(logPpdnsHndlr, {
+        urls: ['<all_urls>'],
+      });
+    }
+  },
+  { urls: ['<all_urls>'] }
+);
