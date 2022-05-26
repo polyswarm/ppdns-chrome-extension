@@ -7,7 +7,7 @@
   text-align: center;
   height: 100%;
   padding: 10px;
-  background-color: rgb(34, 31, 58);
+  background-color: #f1f1f2;
 }
 
 .App-logo {
@@ -35,7 +35,7 @@
 }
 
 .App-link {
-  color: #61dafb;
+  color: #2AA1F2;
 }
 
 form {
@@ -117,7 +117,7 @@ label {
 input:not(:placeholder-shown) + label,
 input:focus + label {
   transform: translateY(-2px) scale(0.75);
-  color: rgb(0, 173, 216);
+  color: #2AA1F2;
 }
 
 .message {
@@ -140,5 +140,5 @@ input:focus + label {
 }
 
 .valid {
-  color: rgb(0, 173, 216);
+  color: #2AA1F2;
 }
