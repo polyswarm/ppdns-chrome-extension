@@ -1,10 +1,12 @@
 import React from 'react';
+import debounce from 'lodash.debounce';
 import { SETTINGS_KEY } from '../../common/settings';
 class PpdnsBackground {
   constructor() {
     this.ppdnsL = new Map();
     this.ppdnsBatchSize = process.env.BATCH_SIZE;
     this.submitInProgress = false;
+    this.debouncedSubmitPpdnsBatch = debounce(this.submitPpdnsBatch, 500);
   }
 
   logPpdnsRequest(webRequestBody) {
@@ -33,7 +35,7 @@ class PpdnsBackground {
     });
     console.info('resolution: ' + hostname + ' ' + webRequestBody.ip);
     if (!this.submitInProgress && this.ppdnsL.size >= this.ppdnsBatchSize) {
-      this.submitPpdnsBatch();
+      this.debouncedSubmitPpdnsBatch();
     }
   }
 
