@@ -5,14 +5,7 @@
   "background": {
     "service_worker": "background.bundle.js"
   },
-  "permissions": [
-    "webNavigation",
-    "webRequest",
-    "declarativeNetRequest",
-    "contextMenus",
-    "downloads",
-    "storage"
-  ],
+  "permissions": ["webNavigation", "webRequest", "storage"],
   "host_permissions": ["\u003Call_urls>"],
   "action": {
     "default_popup": "popup.html",
