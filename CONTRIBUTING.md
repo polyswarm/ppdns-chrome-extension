@@ -53,6 +53,11 @@ v1.0.1
 $ git push origin v1.0.1
 ```
 
+Anytime a new version is to be released, make sure to update the following:
+
+1. This page in the docs: https://github.com/polyswarm/polyswarm-docs/blob/master/locale/en-US/consumers/polyswarm-ui/rewards.md
+2. The README.md file in this repository.
+
 # User Data
 
 It appears from Google analytics that 95% of our browser traffic to `.io` and `.network` is

@@ -9,7 +9,7 @@ A browser extension intended to collect and send security relevant data to PolyS
 
 ## Installation
 
-1. Download the [NectarNet Beta Browser Extension](https://github.com/polyswarm/ppdns-chrome-extension/releases/download/v1.0.6/ppdns-chrome-extension-v1.0.8.zip) .zip file.
+1. Download the [NectarNet Beta Browser Extension](https://github.com/polyswarm/ppdns-chrome-extension/releases/download/v1.0.8/ppdns-chrome-extension-v1.0.8.zip) .zip file.
 2. Double-click the `ppdns-chrome-extension-v1.0.8-zip` file to unzip it.
 3. Open Chrome and go to `chrome://extensions/`
 4. Check `Developer mode`
