@@ -2,6 +2,12 @@
 
 A browser extension intended to collect and send security relevant data to PolySwarm, in exchange for distributing rewards in the form of [NCT](https://polyswarm.io/aboutnct) tokens.
 
+The first browser that we support is Chrome.
+We are working on support for Safari, which should be available soon.
+
+For any browser extension it takes time to submit and be accepted by the Chrome store and Apple store,
+so for now, users have to work with the .tar.gz files we release here on GitHub.
+
 ## Requirements
 
 - Chrome
