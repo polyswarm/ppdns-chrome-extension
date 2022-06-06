@@ -1,28 +1,28 @@
-# PPDNS Chrome Extension
+# PolySwarm NectarNet Beta Browser Extension
 
-This is the source tree for the PolySwarm Chrome extension based off this
-[boilerplate](https://github.com/lxieyang/chrome-extension-boilerplate-react).
+This repository is the source tree for the PolySwarm browser extension for the NectarNet Beta Program.
+If you want to help us improve this browser extension, follow the guidance in this document.
 
 # Chrome Extension Development
 
+Our Chrome extension based off this
+[boilerplate](https://github.com/lxieyang/chrome-extension-boilerplate-react).
+
 ## General
 
-All development is done with Webstorm so we don't have fight with PyCharm and configuring it for JS.
+All development is done with Webstorm.
 
-[Guide](https://developer.chrome.com/docs/extensions/mv3/getstarted/)
-Looks like extensions also works in [Safari](https://discussions.apple.com/thread/252038865#:~:text=Answer%3A%20A%3A-,Answer%3A%20A%3A,and%20click%20on%20Safari%20extensions.)
-too.
-[Intellij](https://stackoverflow.com/questions/13997468/how-do-i-use-webstorm-for-chrome-extension-development) support for
+* [Getting Started Guide](https://developer.chrome.com/docs/extensions/mv3/getstarted/)
+* [Webstorm](https://stackoverflow.com/questions/13997468/how-do-i-use-webstorm-for-chrome-extension-development) support for
 code completion on chrome variable will be helpful in extension development.
 
-If you want to Debug the background script in chrome [here](https://dev.to/wataash/chrome-attach-debug-with-webstorm-328p) is a good guide.
 
 ## Getting Running
 
 Run configs are available in `webstorm/runconfigs`.
-See the original boilerplate [readme](README.orig.md) for instructions on how to
+See the original boilerplate's [README.md](https://github.com/lxieyang/chrome-extension-boilerplate-react/blob/master/README.md#procedures) for instructions on how to
 use `npm start` and load a development version of the extension in your local chrome browser from
-the [build](build) folder.
+the `build` folder.
 
 ## Requirements
 
@@ -39,11 +39,21 @@ the [build](build) folder.
    3. Click on `Load unpacked extension`
    4. Select the `build` folder.
 
-# Debug in Chrome
+## Debug in Chrome
 
-https://developer.chrome.com/docs/extensions/mv3/tut_debugging/
+Google provides a [guide](https://developer.chrome.com/docs/extensions/mv3/tut_debugging/) for debugging Chrome Extensions.
+If you want to Debug the background script in Chrome [this](https://dev.to/wataash/chrome-attach-debug-with-webstorm-328p) is a good guide.
 
-# Creating a Release
+## Submitting Changes
+
+To submit changes to this project, first fork this project into your own GitHub account.
+In your own account, create a branch based off of `master` with your changes in it.
+Then create a Pull Request, in this parent repo, against `master` with your changes.
+In the Pull Request description, provide details about what your changes are intended to do.
+
+## Creating a Release
+
+PolySwarm staff will manage tagging, versioning, and releases.
 
 We use GitHub Actions to build and create releases automatically on push of a new tag.
 
@@ -53,7 +63,17 @@ v1.0.1
 $ git push origin v1.0.1
 ```
 
-# User Data
+Anytime a new version is to be released, make sure to update the following:
 
-It appears from Google analytics that 95% of our browser traffic to `.io` and `.network` is
-comprised of Chrome & Safari. Therefore, we'll ignore firefox for the moment.
+1. The [Rewards](https://docs.polyswarm.io/consumers/rewards/#browser-extension) page in the PolySwarm docs.
+2. The `README.md` file in this repository.
+
+
+# Safari Extension Development
+
+COMING SOON...
+
+# Other Notes
+
+Our Google analytics indicate that 95% of our browser traffic to `.io` and `.network` is
+from Chrome & Safari. Therefore, we'll ignore Firefox for the moment.

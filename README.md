@@ -2,6 +2,12 @@
 
 A browser extension intended to collect and send security relevant data to PolySwarm, in exchange for distributing rewards in the form of [NCT](https://polyswarm.io/aboutnct) tokens.
 
+The first browser that we support is Chrome.
+We are working on support for Safari, which should be available soon.
+
+For any browser extension it takes time to submit and be accepted by the Chrome store and Apple store,
+so for now, users have to work with the .tar.gz files we release here on GitHub.
+
 ## Requirements
 
 - Chrome
@@ -9,12 +15,12 @@ A browser extension intended to collect and send security relevant data to PolyS
 
 ## Installation
 
-1. Download the [NectarNet Beta Browser Extension](https://github.com/polyswarm/ppdns-chrome-extension/releases/download/v1.0.6/ppdns-chrome-extension-v1.0.6.zip) .zip file.
-2. Double-click the `ppdns-chrome-extension-v1.0.6-zip` file to unzip it.
+1. Download the [NectarNet Beta Browser Extension](https://github.com/polyswarm/ppdns-chrome-extension/releases/download/v1.0.8/ppdns-chrome-extension-v1.0.8.zip) .zip file.
+2. Double-click the `ppdns-chrome-extension-v1.0.8-zip` file to unzip it.
 3. Open Chrome and go to `chrome://extensions/`
 4. Check `Developer mode`
 5. Click on `Load unpacked extension`
-6. Select the `ppdns-chrome-extension-v1.0.6` folder that you unzipped.
+6. Select the `ppdns-chrome-extension-v1.0.8` folder that you unzipped.
 
 ## Setup
 
