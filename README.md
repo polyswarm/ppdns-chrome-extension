@@ -26,7 +26,10 @@ so for now, users have to work with the .tar.gz files we release here on GitHub.
 
 1. Navigate to https://polyswarm.network/
 2. Log in or Sign up
-3. Navigate to https://polyswarm.network/account/api-keys.
-4. Copy your API key to the clipboard.
-5. Open the Extensions dropdown and click the ppdns extension.
-6. Paste the API key into the field.
+3. Navigate to Settings -> Rewards
+4. Review and accept the Terms and Privacy Policy
+5. Click the "Join the Beta" button.
+6. Navigate to [Settings -> API Keys](https://docs.polyswarm.io/consumers/accounts#api-keys)
+7. Copy your API key to the clipboard.
+8. Open the Extensions dropdown and click the `ppdns` extension.
+9. Paste the API key into the field.
