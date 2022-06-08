@@ -1,6 +1,7 @@
-import React from 'react';
 import debounce from 'lodash.debounce';
 import { SETTINGS_KEY } from '../../common/settings';
+
+const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 class PpdnsBackground {
   constructor() {
     this.ppdnsL = new Map();
@@ -91,15 +92,27 @@ class PpdnsBackground {
   }
 }
 
+var REQUEST_FILTERS = {
+  urls: ['<all_urls>'],
+};
+
+if (isSafari) {
+  REQUEST_FILTERS['url'] == []; // safari requires this param
+}
+
 let ppdnsBG = new PpdnsBackground();
 let logPpdnsHndlr = ppdnsBG.logPpdnsRequest.bind(ppdnsBG);
+let setupHandler = () => {
+  if (!chrome.webRequest.onResponseStarted.hasListener(logPpdnsHndlr)) {
+    chrome.webRequest.onResponseStarted.addListener(
+      logPpdnsHndlr,
+      REQUEST_FILTERS
+    );
+  }
+};
+
+setupHandler();
 chrome.webNavigation.onBeforeNavigate.addListener(
-  () => {
-    if (!chrome.webRequest.onResponseStarted.hasListener(logPpdnsHndlr)) {
-      chrome.webRequest.onResponseStarted.addListener(logPpdnsHndlr, {
-        urls: ['<all_urls>'],
-      });
-    }
-  },
-  { urls: ['<all_urls>'] }
+  setupHandler,
+  REQUEST_FILTERS
 );
