@@ -1,0 +1,599 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		67B30EA828515BA900986CB4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B30EA728515BA900986CB4 /* AppDelegate.swift */; };
+		67B30EAC28515BA900986CB4 /* Main.html in Resources */ = {isa = PBXBuildFile; fileRef = 67B30EAA28515BA900986CB4 /* Main.html */; };
+		67B30EAE28515BA900986CB4 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 67B30EAD28515BA900986CB4 /* Icon.png */; };
+		67B30EB028515BA900986CB4 /* Style.css in Resources */ = {isa = PBXBuildFile; fileRef = 67B30EAF28515BA900986CB4 /* Style.css */; };
+		67B30EB228515BA900986CB4 /* Script.js in Resources */ = {isa = PBXBuildFile; fileRef = 67B30EB128515BA900986CB4 /* Script.js */; };
+		67B30EB428515BA900986CB4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B30EB328515BA900986CB4 /* ViewController.swift */; };
+		67B30EB728515BA900986CB4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 67B30EB528515BA900986CB4 /* Main.storyboard */; };
+		67B30EB928515BAB00986CB4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 67B30EB828515BAB00986CB4 /* Assets.xcassets */; };
+		67B30EC228515BAB00986CB4 /* PolySwarm in Browser Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 67B30EC128515BAB00986CB4 /* PolySwarm in Browser Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		67B30EC728515BAB00986CB4 /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B30EC628515BAB00986CB4 /* SafariWebExtensionHandler.swift */; };
+		67B30EDB28515BAC00986CB4 /* popup.html in Resources */ = {isa = PBXBuildFile; fileRef = 67B30ED428515BAC00986CB4 /* popup.html */; };
+		67B30EDC28515BAC00986CB4 /* background.bundle.js in Resources */ = {isa = PBXBuildFile; fileRef = 67B30ED528515BAC00986CB4 /* background.bundle.js */; };
+		67B30EDD28515BAC00986CB4 /* 1c07bbc6dd8d4f181c88.svg in Resources */ = {isa = PBXBuildFile; fileRef = 67B30ED628515BAC00986CB4 /* 1c07bbc6dd8d4f181c88.svg */; };
+		67B30EDE28515BAC00986CB4 /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 67B30ED728515BAC00986CB4 /* manifest.json */; };
+		67B30EDF28515BAC00986CB4 /* icon-34.png in Resources */ = {isa = PBXBuildFile; fileRef = 67B30ED828515BAC00986CB4 /* icon-34.png */; };
+		67B30EE028515BAC00986CB4 /* icon-128.png in Resources */ = {isa = PBXBuildFile; fileRef = 67B30ED928515BAC00986CB4 /* icon-128.png */; };
+		67B30EE128515BAC00986CB4 /* popup.bundle.js in Resources */ = {isa = PBXBuildFile; fileRef = 67B30EDA28515BAC00986CB4 /* popup.bundle.js */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		67B30EC328515BAB00986CB4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 67B30E9C28515BA900986CB4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 67B30EC028515BAB00986CB4;
+			remoteInfo = "PolySwarm in Browser Extension";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		67B30ECF28515BAB00986CB4 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				67B30EC228515BAB00986CB4 /* PolySwarm in Browser Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		67B30EA428515BA900986CB4 /* PolySwarm in Browser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PolySwarm in Browser.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		67B30EA728515BA900986CB4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		67B30EAB28515BA900986CB4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Base; path = ../Base.lproj/Main.html; sourceTree = "<group>"; };
+		67B30EAD28515BA900986CB4 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		67B30EAF28515BA900986CB4 /* Style.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = Style.css; sourceTree = "<group>"; };
+		67B30EB128515BA900986CB4 /* Script.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Script.js; sourceTree = "<group>"; };
+		67B30EB328515BA900986CB4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		67B30EB628515BA900986CB4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		67B30EB828515BAB00986CB4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		67B30EBA28515BAB00986CB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		67B30EBB28515BAB00986CB4 /* PolySwarm_in_Browser.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PolySwarm_in_Browser.entitlements; sourceTree = "<group>"; };
+		67B30EBC28515BAB00986CB4 /* PolySwarm in Browser.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "PolySwarm in Browser.entitlements"; sourceTree = "<group>"; };
+		67B30EC128515BAB00986CB4 /* PolySwarm in Browser Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "PolySwarm in Browser Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		67B30EC628515BAB00986CB4 /* SafariWebExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWebExtensionHandler.swift; sourceTree = "<group>"; };
+		67B30EC828515BAB00986CB4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		67B30EC928515BAB00986CB4 /* PolySwarm_in_Browser_Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PolySwarm_in_Browser_Extension.entitlements; sourceTree = "<group>"; };
+		67B30ED428515BAC00986CB4 /* popup.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = popup.html; path = ../../build/popup.html; sourceTree = "<group>"; };
+		67B30ED528515BAC00986CB4 /* background.bundle.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = background.bundle.js; path = ../../build/background.bundle.js; sourceTree = "<group>"; };
+		67B30ED628515BAC00986CB4 /* 1c07bbc6dd8d4f181c88.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = 1c07bbc6dd8d4f181c88.svg; path = ../../build/1c07bbc6dd8d4f181c88.svg; sourceTree = "<group>"; };
+		67B30ED728515BAC00986CB4 /* manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = manifest.json; path = ../../build/manifest.json; sourceTree = "<group>"; };
+		67B30ED828515BAC00986CB4 /* icon-34.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-34.png"; path = "../../build/icon-34.png"; sourceTree = "<group>"; };
+		67B30ED928515BAC00986CB4 /* icon-128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-128.png"; path = "../../build/icon-128.png"; sourceTree = "<group>"; };
+		67B30EDA28515BAC00986CB4 /* popup.bundle.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = popup.bundle.js; path = ../../build/popup.bundle.js; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		67B30EA128515BA900986CB4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		67B30EBE28515BAB00986CB4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		67B30E9B28515BA900986CB4 = {
+			isa = PBXGroup;
+			children = (
+				67B30EA628515BA900986CB4 /* PolySwarm in Browser */,
+				67B30EC528515BAB00986CB4 /* PolySwarm in Browser Extension */,
+				67B30EA528515BA900986CB4 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		67B30EA528515BA900986CB4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				67B30EA428515BA900986CB4 /* PolySwarm in Browser.app */,
+				67B30EC128515BAB00986CB4 /* PolySwarm in Browser Extension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		67B30EA628515BA900986CB4 /* PolySwarm in Browser */ = {
+			isa = PBXGroup;
+			children = (
+				67B30EA728515BA900986CB4 /* AppDelegate.swift */,
+				67B30EB328515BA900986CB4 /* ViewController.swift */,
+				67B30EB528515BA900986CB4 /* Main.storyboard */,
+				67B30EB828515BAB00986CB4 /* Assets.xcassets */,
+				67B30EBA28515BAB00986CB4 /* Info.plist */,
+				67B30EBB28515BAB00986CB4 /* PolySwarm_in_Browser.entitlements */,
+				67B30EBC28515BAB00986CB4 /* PolySwarm in Browser.entitlements */,
+				67B30EA928515BA900986CB4 /* Resources */,
+			);
+			path = "PolySwarm in Browser";
+			sourceTree = "<group>";
+		};
+		67B30EA928515BA900986CB4 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				67B30EAA28515BA900986CB4 /* Main.html */,
+				67B30EAD28515BA900986CB4 /* Icon.png */,
+				67B30EAF28515BA900986CB4 /* Style.css */,
+				67B30EB128515BA900986CB4 /* Script.js */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		67B30EC528515BAB00986CB4 /* PolySwarm in Browser Extension */ = {
+			isa = PBXGroup;
+			children = (
+				67B30ED328515BAC00986CB4 /* Resources */,
+				67B30EC628515BAB00986CB4 /* SafariWebExtensionHandler.swift */,
+				67B30EC828515BAB00986CB4 /* Info.plist */,
+				67B30EC928515BAB00986CB4 /* PolySwarm_in_Browser_Extension.entitlements */,
+			);
+			path = "PolySwarm in Browser Extension";
+			sourceTree = "<group>";
+		};
+		67B30ED328515BAC00986CB4 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				67B30ED428515BAC00986CB4 /* popup.html */,
+				67B30ED528515BAC00986CB4 /* background.bundle.js */,
+				67B30ED628515BAC00986CB4 /* 1c07bbc6dd8d4f181c88.svg */,
+				67B30ED728515BAC00986CB4 /* manifest.json */,
+				67B30ED828515BAC00986CB4 /* icon-34.png */,
+				67B30ED928515BAC00986CB4 /* icon-128.png */,
+				67B30EDA28515BAC00986CB4 /* popup.bundle.js */,
+			);
+			name = Resources;
+			path = "PolySwarm in Browser Extension";
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		67B30EA328515BA900986CB4 /* PolySwarm in Browser */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 67B30ED028515BAB00986CB4 /* Build configuration list for PBXNativeTarget "PolySwarm in Browser" */;
+			buildPhases = (
+				67B30EA028515BA900986CB4 /* Sources */,
+				67B30EA128515BA900986CB4 /* Frameworks */,
+				67B30EA228515BA900986CB4 /* Resources */,
+				67B30ECF28515BAB00986CB4 /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				67B30EC428515BAB00986CB4 /* PBXTargetDependency */,
+			);
+			name = "PolySwarm in Browser";
+			productName = "PolySwarm in Browser";
+			productReference = 67B30EA428515BA900986CB4 /* PolySwarm in Browser.app */;
+			productType = "com.apple.product-type.application";
+		};
+		67B30EC028515BAB00986CB4 /* PolySwarm in Browser Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 67B30ECC28515BAB00986CB4 /* Build configuration list for PBXNativeTarget "PolySwarm in Browser Extension" */;
+			buildPhases = (
+				67B30EBD28515BAB00986CB4 /* Sources */,
+				67B30EBE28515BAB00986CB4 /* Frameworks */,
+				67B30EBF28515BAB00986CB4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "PolySwarm in Browser Extension";
+			productName = "PolySwarm in Browser Extension";
+			productReference = 67B30EC128515BAB00986CB4 /* PolySwarm in Browser Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		67B30E9C28515BA900986CB4 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1340;
+				LastUpgradeCheck = 1340;
+				TargetAttributes = {
+					67B30EA328515BA900986CB4 = {
+						CreatedOnToolsVersion = 13.4.1;
+					};
+					67B30EC028515BAB00986CB4 = {
+						CreatedOnToolsVersion = 13.4.1;
+					};
+				};
+			};
+			buildConfigurationList = 67B30E9F28515BA900986CB4 /* Build configuration list for PBXProject "PolySwarm in Browser" */;
+			compatibilityVersion = "Xcode 13.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 67B30E9B28515BA900986CB4;
+			productRefGroup = 67B30EA528515BA900986CB4 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				67B30EA328515BA900986CB4 /* PolySwarm in Browser */,
+				67B30EC028515BAB00986CB4 /* PolySwarm in Browser Extension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		67B30EA228515BA900986CB4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				67B30EAE28515BA900986CB4 /* Icon.png in Resources */,
+				67B30EB728515BA900986CB4 /* Main.storyboard in Resources */,
+				67B30EB228515BA900986CB4 /* Script.js in Resources */,
+				67B30EAC28515BA900986CB4 /* Main.html in Resources */,
+				67B30EB928515BAB00986CB4 /* Assets.xcassets in Resources */,
+				67B30EB028515BA900986CB4 /* Style.css in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		67B30EBF28515BAB00986CB4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				67B30EDE28515BAC00986CB4 /* manifest.json in Resources */,
+				67B30EDF28515BAC00986CB4 /* icon-34.png in Resources */,
+				67B30EE128515BAC00986CB4 /* popup.bundle.js in Resources */,
+				67B30EE028515BAC00986CB4 /* icon-128.png in Resources */,
+				67B30EDD28515BAC00986CB4 /* 1c07bbc6dd8d4f181c88.svg in Resources */,
+				67B30EDB28515BAC00986CB4 /* popup.html in Resources */,
+				67B30EDC28515BAC00986CB4 /* background.bundle.js in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		67B30EA028515BA900986CB4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				67B30EB428515BA900986CB4 /* ViewController.swift in Sources */,
+				67B30EA828515BA900986CB4 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		67B30EBD28515BAB00986CB4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				67B30EC728515BAB00986CB4 /* SafariWebExtensionHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		67B30EC428515BAB00986CB4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 67B30EC028515BAB00986CB4 /* PolySwarm in Browser Extension */;
+			targetProxy = 67B30EC328515BAB00986CB4 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		67B30EAA28515BA900986CB4 /* Main.html */ = {
+			isa = PBXVariantGroup;
+			children = (
+				67B30EAB28515BA900986CB4 /* Base */,
+			);
+			name = Main.html;
+			sourceTree = "<group>";
+		};
+		67B30EB528515BA900986CB4 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				67B30EB628515BA900986CB4 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		67B30ECA28515BAB00986CB4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		67B30ECB28515BAB00986CB4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		67B30ECD28515BAB00986CB4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "PolySwarm in Browser Extension/PolySwarm_in_Browser_Extension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "PolySwarm in Browser Extension/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "PolySwarm in Browser Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yourCompany.PolySwarm-in-Browser.Extension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		67B30ECE28515BAB00986CB4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "PolySwarm in Browser Extension/PolySwarm_in_Browser_Extension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "PolySwarm in Browser Extension/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "PolySwarm in Browser Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yourCompany.PolySwarm-in-Browser.Extension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		67B30ED128515BAB00986CB4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "PolySwarm in Browser/PolySwarm in Browser.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "PolySwarm in Browser/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "PolySwarm in Browser";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yourCompany.PolySwarm-in-Browser";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		67B30ED228515BAB00986CB4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "PolySwarm in Browser/PolySwarm in Browser.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "PolySwarm in Browser/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "PolySwarm in Browser";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yourCompany.PolySwarm-in-Browser";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		67B30E9F28515BA900986CB4 /* Build configuration list for PBXProject "PolySwarm in Browser" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				67B30ECA28515BAB00986CB4 /* Debug */,
+				67B30ECB28515BAB00986CB4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		67B30ECC28515BAB00986CB4 /* Build configuration list for PBXNativeTarget "PolySwarm in Browser Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				67B30ECD28515BAB00986CB4 /* Debug */,
+				67B30ECE28515BAB00986CB4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		67B30ED028515BAB00986CB4 /* Build configuration list for PBXNativeTarget "PolySwarm in Browser" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				67B30ED128515BAB00986CB4 /* Debug */,
+				67B30ED228515BAB00986CB4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 67B30E9C28515BA900986CB4 /* Project object */;
+}
