@@ -1,7 +1,6 @@
 import debounce from 'lodash.debounce';
 import { SETTINGS_KEY } from '../../common/settings';
 
-const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 class PpdnsBackground {
   constructor() {
     this.ppdnsL = new Map();
@@ -96,8 +95,10 @@ var REQUEST_FILTERS = {
   urls: ['<all_urls>'],
 };
 
-if (isSafari) {
-  REQUEST_FILTERS['url'] == []; // safari requires this param
+if (process.env.SAFARI_BUILD) {
+  REQUEST_FILTERS = {
+    urls: [],
+  };
 }
 
 let ppdnsBG = new PpdnsBackground();
