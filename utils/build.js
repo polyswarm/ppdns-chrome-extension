@@ -5,10 +5,10 @@ process.env.ASSET_PATH = '/';
 
 var webpack = require('webpack'),
   config = require('../webpack.config'),
-  ffConfig = require('../firefox/webpack.config');
+  ffConfig = require('../webpack.ff.config');
 
 delete config.chromeExtensionBoilerplate;
-delete config.chromeExtensionBoilerplate;
+delete ffConfig.chromeExtensionBoilerplate;
 
 config.mode = ffConfig.mode = 'production';
 

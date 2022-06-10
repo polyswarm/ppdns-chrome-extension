@@ -1,7 +1,7 @@
 var webpack = require('webpack'),
   path = require('path'),
   fileSystem = require('fs-extra'),
-  env = require('../utils/env'),
+  env = require('./utils/env'),
   CopyWebpackPlugin = require('copy-webpack-plugin'),
   HtmlWebpackPlugin = require('html-webpack-plugin'),
   TerserPlugin = require('terser-webpack-plugin'),
@@ -15,10 +15,7 @@ var alias = {
 };
 
 // load the secrets
-var secretsPath = path.join(
-  __dirname + '../',
-  'secrets.' + env.NODE_ENV + '.js'
-);
+var secretsPath = path.join(__dirname, 'secrets.' + env.NODE_ENV + '.js');
 
 var fileExtensions = [
   'jpg',
@@ -110,8 +107,8 @@ var options = {
   },
   plugins: [
     new ZipPlugin({
-      path: '../../',
-      filename: `ppdns-chrome-extension-v${process.env.npm_package_version}.zip`,
+      path: '../',
+      filename: `ppdns-firefox-extension-v${process.env.npm_package_version}.zip`,
     }),
     new CleanWebpackPlugin({ verbose: false }),
     new webpack.ProgressPlugin(),
