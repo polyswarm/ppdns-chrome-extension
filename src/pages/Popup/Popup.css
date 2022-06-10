@@ -35,7 +35,7 @@
 }
 
 .App-link {
-  color: #2AA1F2;
+  color: #2aa1f2;
 }
 
 form {
@@ -67,8 +67,9 @@ form {
   writing-mode: horizontal-tb;
   font-family: Heebo, HelveticaNeue-Light, 'Helvetica Neue Light';
   font-size: 22px;
-  -webkit-text-security: disc;
-  text-security: disc;
+  -webkit-text-security: circle;
+  -moz-text-security: circle;
+  text-security: circle;
 }
 
 #apiKeyWrapper {
@@ -117,7 +118,7 @@ label {
 input:not(:placeholder-shown) + label,
 input:focus + label {
   transform: translateY(-2px) scale(0.75);
-  color: #2AA1F2;
+  color: #2aa1f2;
 }
 
 .message {
@@ -140,5 +141,5 @@ input:focus + label {
 }
 
 .valid {
-  color: #2AA1F2;
+  color: #2aa1f2;
 }

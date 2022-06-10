@@ -1,7 +1,7 @@
 var webpack = require('webpack'),
   path = require('path'),
   fileSystem = require('fs-extra'),
-  env = require('./utils/env'),
+  env = require('../utils/env'),
   CopyWebpackPlugin = require('copy-webpack-plugin'),
   HtmlWebpackPlugin = require('html-webpack-plugin'),
   TerserPlugin = require('terser-webpack-plugin'),
@@ -15,7 +15,10 @@ var alias = {
 };
 
 // load the secrets
-var secretsPath = path.join(__dirname, 'secrets.' + env.NODE_ENV + '.js');
+var secretsPath = path.join(
+  __dirname + '../',
+  'secrets.' + env.NODE_ENV + '.js'
+);
 
 var fileExtensions = [
   'jpg',
@@ -45,7 +48,7 @@ var options = {
   },
   output: {
     filename: '[name].bundle.js',
-    path: path.resolve(__dirname, 'build'),
+    path: path.resolve(__dirname, 'firefox_build'),
     clean: true,
     publicPath: ASSET_PATH,
   },
@@ -107,7 +110,7 @@ var options = {
   },
   plugins: [
     new ZipPlugin({
-      path: '../',
+      path: '../../',
       filename: `ppdns-chrome-extension-v${process.env.npm_package_version}.zip`,
     }),
     new CleanWebpackPlugin({ verbose: false }),
@@ -117,8 +120,8 @@ var options = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: 'src/manifest.json',
-          to: path.join(__dirname, 'build'),
+          from: 'firefox/manifest.json',
+          to: path.join(__dirname, 'firefox_build'),
           force: true,
           transform: function (content, path) {
             // generates the manifest file using the package.json informations
@@ -137,7 +140,7 @@ var options = {
       patterns: [
         {
           from: 'src/assets/img/icon-128.png',
-          to: path.join(__dirname, 'build'),
+          to: path.join(__dirname, 'firefox_build'),
           force: true,
         },
       ],
@@ -146,7 +149,7 @@ var options = {
       patterns: [
         {
           from: 'src/assets/img/icon-34.png',
-          to: path.join(__dirname, 'build'),
+          to: path.join(__dirname, 'firefox_build'),
           force: true,
         },
       ],
