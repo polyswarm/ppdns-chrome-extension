@@ -4,4 +4,5 @@ module.exports = {
   PORT: process.env.PORT || 3111,
   AI_BASE_URL: process.env.AI_BASE_URL || 'http://artifact-index-e2e:9696',
   BATCH_SIZE: process.env.BATCH_SIZE || 10,
+  SAFARI_BUILD: process.env.SAFARI_BUILD || false,
 };
