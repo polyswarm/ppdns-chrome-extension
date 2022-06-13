@@ -5,7 +5,7 @@ env:
   BATCH_SIZE: 10
 on:
   push:
-    tags: [v*]
+    tags: [v*, test-build-*]
 
 jobs:
   build:
