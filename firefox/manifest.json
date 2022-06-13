@@ -1,8 +1,8 @@
 {
-  "description": "Earn NCT for contributing cyber security data",
+  "name": "PolySwarm NectarNet",
+  "description": "Earn NCT while browsing the internet.",
   "version": "1.0.8",
   "manifest_version": 2,
-  "name": "PolySwarm in Browser",
   "background": { "scripts": ["background.bundle.js"] },
   "permissions": ["webNavigation", "webRequest", "storage"],
   "host_permissions": ["<all_urls>"],
