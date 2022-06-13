@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    runs-on: macOS-latest
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:
@@ -32,9 +32,7 @@ jobs:
         run: |
           npm install
           npm run build
-          # Disable safari build because it only supports safari 12 and below
-          # xcrun safari-web-extension-converter ./build --project-location $PWD/safari --app-name ppdns --bundle-identifier ppdns --macos-only --copy-resources
-          # zip -r ppdns-safari-extension-${{ steps.tag_name.outputs.tag }}.zip ./safari
+          ls
 
       - name: Release
         uses: softprops/action-gh-release@v1
