@@ -15,12 +15,12 @@ so for now, users have to work with the .tar.gz files we release here on GitHub.
 
 ## Installation
 
-1. Download the [NectarNet Beta Browser Extension](https://github.com/polyswarm/ppdns-chrome-extension/releases/download/v1.0.8/ppdns-chrome-extension-v1.0.8.zip) .zip file.
-2. Double-click the `ppdns-chrome-extension-v1.0.8-zip` file to unzip it.
+1. Download the [NectarNet Beta Browser Extension](https://github.com/polyswarm/ppdns-chrome-extension/releases/download/v1.0.9/ppdns-chrome-extension-v1.0.9.zip) .zip file.
+2. Double-click the `ppdns-chrome-extension-v1.0.9-zip` file to unzip it.
 3. Open Chrome and go to `chrome://extensions/`
 4. Check `Developer mode`
 5. Click on `Load unpacked extension`
-6. Select the `ppdns-chrome-extension-v1.0.8` folder that you unzipped.
+6. Select the `ppdns-chrome-extension-v1.0.9` folder that you unzipped.
 
 ## Setup
 
