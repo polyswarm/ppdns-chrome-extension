@@ -29,7 +29,7 @@ const Popup = () => {
             className={settings.apiKey && !valid ? 'invalid' : ''}
           >
             <input
-              type="text"
+              type="password"
               name="apiKey"
               placeholder="  "
               defaultValue={settings.apiKey}

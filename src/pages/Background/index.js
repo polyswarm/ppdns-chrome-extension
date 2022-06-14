@@ -1,6 +1,6 @@
-import React from 'react';
 import debounce from 'lodash.debounce';
 import { SETTINGS_KEY } from '../../common/settings';
+
 class PpdnsBackground {
   constructor() {
     this.ppdnsL = new Map();
@@ -93,13 +93,15 @@ class PpdnsBackground {
 
 let ppdnsBG = new PpdnsBackground();
 let logPpdnsHndlr = ppdnsBG.logPpdnsRequest.bind(ppdnsBG);
-chrome.webNavigation.onBeforeNavigate.addListener(
-  () => {
-    if (!chrome.webRequest.onResponseStarted.hasListener(logPpdnsHndlr)) {
-      chrome.webRequest.onResponseStarted.addListener(logPpdnsHndlr, {
-        urls: ['<all_urls>'],
-      });
-    }
-  },
-  { urls: ['<all_urls>'] }
-);
+let setupHandler = () => {
+  if (!chrome.webRequest.onResponseStarted.hasListener(logPpdnsHndlr)) {
+    chrome.webRequest.onResponseStarted.addListener(logPpdnsHndlr, {
+      urls: ['<all_urls>'],
+    });
+  }
+};
+
+setupHandler();
+chrome.webNavigation.onBeforeNavigate.addListener(setupHandler, {
+  url: [{ schemes: ['http', 'https', 'ws', 'wss'] }],
+});
