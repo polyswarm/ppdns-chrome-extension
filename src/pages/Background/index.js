@@ -4,8 +4,9 @@ import { SETTINGS_KEY } from '../../common/settings';
 class PpdnsBackground {
   constructor() {
     this.ppdnsL = new Map();
-    this.ppdnsBatchSize = process.env.BATCH_SIZE;
+    this.ppdnsBatchSize = parseInt(process.env.BATCH_SIZE);
     this.submitInProgress = false;
+
     this.debouncedSubmitPpdnsBatch = debounce(this.submitPpdnsBatch, 500);
   }
 
@@ -81,13 +82,34 @@ class PpdnsBackground {
       body: JSON.stringify(data),
     })
       .then((response) => response.json())
-      .then((data) => console.info(data))
+      .then((data) => {
+        console.info(data);
+        if (data['status'] == 'OK') {
+          chrome.storage.local.get(
+            SETTINGS_KEY,
+            this.incrementResolutionCount.bind(this)
+          );
+        }
+      })
       .catch((error) => {
         console.error('Error posting ingest:', error);
       })
       .finally(() => {
         this.submitInProgress = false;
       });
+  }
+
+  incrementResolutionCount(result) {
+    var count =
+      parseInt(result.settings.resolutionsSubmittedCount) + this.ppdnsBatchSize;
+
+    chrome.storage.local.set({
+      settings: {
+        apiKey: result.settings.apiKey,
+        ingestSuccess: 'true',
+        resolutionsSubmittedCount: count.toString(),
+      },
+    });
   }
 }
 
