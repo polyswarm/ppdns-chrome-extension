@@ -13,7 +13,10 @@ const Popup = () => {
       setValid(valid);
       if (valid) {
         return setSettings((prevState) => {
-          return { ...prevState, apiKey: event.target.value };
+          return {
+            ...prevState,
+            apiKey: event.target.value,
+          };
         });
       }
     });
@@ -41,6 +44,11 @@ const Popup = () => {
             )}
             {apiKey && valid && <label className="valid message">Valid</label>}
           </div>
+          {settings.resolutionsSubmittedCount && (
+            <div className="resolutions">
+              {settings.resolutionsSubmittedCount} resolutions submitted.
+            </div>
+          )}
         </form>
       </header>
     </div>

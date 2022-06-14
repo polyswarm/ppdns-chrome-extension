@@ -143,3 +143,10 @@ input:focus + label {
 .valid {
   color: #2aa1f2;
 }
+
+.resolutions {
+  color: rgb(145, 146, 164);
+  font-family: Heebo, 'HelveticaNeue-Light', 'Helvetica Neue Light',
+  'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
+  font-size: .8rem;
+}

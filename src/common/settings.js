@@ -2,8 +2,8 @@ import { createChromeStorageStateHookLocal } from 'use-chrome-storage';
 export const SETTINGS_KEY = 'settings';
 export const INITIAL_VALUE = {
   apiKey: '',
-  ingestSuccess: false,
-  resolutionsSubmittedCount: 0,
+  ingestSuccess: 'false',
+  resolutionsSubmittedCount: '0',
 };
 
 export const useSettingsStore = createChromeStorageStateHookLocal(
