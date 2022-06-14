@@ -11,7 +11,6 @@
 }
 
 .App-logo {
-  height: 30vmin;
   pointer-events: none;
 }
 
@@ -133,7 +132,7 @@ input:focus + label {
   line-height: 1.66;
   font-size: 16px;
   position: absolute;
-  top: 35px;
+  top: 25px;
 }
 
 .invalid {
@@ -149,4 +148,11 @@ input:focus + label {
   font-family: Heebo, 'HelveticaNeue-Light', 'Helvetica Neue Light',
   'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
   font-size: .8rem;
+  margin-top: 25px;
+}
+
+.ingest-failure {
+  color: #f44336;
+  font-size: .8rem;
+  margin-top: 20px;
 }

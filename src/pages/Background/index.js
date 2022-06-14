@@ -83,12 +83,13 @@ class PpdnsBackground {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.info(data);
         if (data['status'] == 'OK') {
           chrome.storage.local.get(
             SETTINGS_KEY,
             this.incrementResolutionCount.bind(this)
           );
+        } else {
+          chrome.storage.local.get(SETTINGS_KEY, this.ingestError.bind(this));
         }
       })
       .catch((error) => {
@@ -99,7 +100,27 @@ class PpdnsBackground {
       });
   }
 
+  ingestError(result) {
+    chrome.storage.local.set({
+      settings: {
+        apiKey: result.settings.apiKey,
+        ingestSuccess: 'false',
+        resolutionsSubmittedCount: result.settings.resolutionsSubmittedCount,
+      },
+    });
+    chrome.notifications.create('ingestError', {
+      type: 'basic',
+      iconUrl: 'icon-34.png',
+      title: 'Error submitting data',
+      message:
+        'There was an issue submitting data.  Read the docs: https://docs.polyswarm.io/consumers/rewards/#rewards',
+      priority: 2,
+    });
+  }
+
   incrementResolutionCount(result) {
+    chrome.notifications.clear('ingestError');
+
     var count =
       parseInt(result.settings.resolutionsSubmittedCount) + this.ppdnsBatchSize;
 

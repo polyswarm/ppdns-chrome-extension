@@ -11,6 +11,7 @@ const Popup = () => {
     setApiKey(event.target.value);
     validateAPIKey(event.target.value).then((valid) => {
       setValid(valid);
+      settings.ingestSuccess = '';
       if (valid) {
         return setSettings((prevState) => {
           return {
@@ -46,9 +47,22 @@ const Popup = () => {
           </div>
           {settings.resolutionsSubmittedCount && (
             <div className="resolutions">
-              {settings.resolutionsSubmittedCount} resolutions submitted.
+              {settings.resolutionsSubmittedCount} total resolutions submitted
             </div>
           )}
+          {settings.apiKey &&
+            settings.apiKey.length &&
+            settings.ingestSuccess == 'false' && (
+              <div className="ingest-failure">
+                There was an issue submitting data. Have you joined the beta?{' '}
+                <a
+                  target="_blank"
+                  href="https://docs.polyswarm.io/consumers/rewards/#rewards"
+                >
+                  Read the docs.
+                </a>
+              </div>
+            )}
         </form>
       </header>
     </div>
