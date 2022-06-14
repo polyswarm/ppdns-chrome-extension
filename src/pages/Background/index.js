@@ -6,7 +6,6 @@ class PpdnsBackground {
     this.ppdnsL = new Map();
     this.ppdnsBatchSize = parseInt(process.env.BATCH_SIZE);
     this.submitInProgress = false;
-
     this.debouncedSubmitPpdnsBatch = debounce(this.submitPpdnsBatch, 500);
   }
 
