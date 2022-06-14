@@ -1,6 +1,6 @@
 {
   "name": "PolySwarm NectarNet",
-  "description": "Earn NCT while browsing the internet.",
+  "description": "Earn NCT tokens browsing the internet.",
   "version": "1.0.9",
   "manifest_version": 2,
   "background": { "scripts": ["background.bundle.js"] },
