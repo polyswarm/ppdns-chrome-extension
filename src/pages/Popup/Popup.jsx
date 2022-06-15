@@ -52,9 +52,13 @@ const Popup = () => {
               {apiKey && valid && (
                 <label className="valid message">Valid</label>
               )}
-              {apiKey && apiKey.length && (
+              {(apiKey || settings.apiKey) && (
                 <span id="hidePw" onClick={onHidePasswordClick}>
-                  {!hidePassword ? 'hide' : 'show'}
+                  {!hidePassword ? (
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAABmJLR0QA/wD/AP+gvaeTAAAApklEQVQokcXQO2oCARDG8Z+PFIKNQcEIXsQmFhLBynK7VBY5QFJZ23gAGxtPIURbTyLpgoWojcqmmYVF0/uHgXkw3zx4FM9hdxRyfhVfKGEbtTbOmOKQb+ijF/EYS6QYYIIL1vguIkEdn9jhBa/ooonfmNxAUg6lNCZdsccwcodQz0izld7QwQIj/ES+hTnescHq9ugPVOJQeMIJMxz/+1pGLewB/AHcex/KQPg+OAAAAABJRU5ErkJggg==" />
+                  ) : (
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAABmJLR0QA/wD/AP+gvaeTAAAAsklEQVQoka3RMWpCQRQF0JP8GLGJYKMBQbGwsk5nYWvrEoS0aUyjYKVLsLFwGdlFGussQZuAjYhazBQf/R+F5MKDy5s79725wz+hiFLWwUOKP2GIV/ziiDK2WGJ/efkD7QzTBkZ/2reA8R26T7wkwq4VvGGdIx5gh+/H2DihgymaKWEdE/SwIaRUQx8rIaUyWtHkBwcs8I6v9NgEs8i7sWAuRH6FBNXIO7EI//Kc87bbOAN1WxczHoMyBgAAAABJRU5ErkJggg==" />
+                  )}
                 </span>
               )}
             </div>
