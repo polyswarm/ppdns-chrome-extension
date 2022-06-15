@@ -52,9 +52,11 @@ const Popup = () => {
               {apiKey && valid && (
                 <label className="valid message">Valid</label>
               )}
-              <span id="hidePw" onClick={onHidePasswordClick}>
-                {!hidePassword ? 'hide' : 'show'}
-              </span>
+              {apiKey && apiKey.length && (
+                <span id="hidePw" onClick={onHidePasswordClick}>
+                  {!hidePassword ? 'hide' : 'show'}
+                </span>
+              )}
             </div>
           </div>
           {settings.resolutionsSubmittedCount && (
