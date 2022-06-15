@@ -9,7 +9,7 @@ const Popup = () => {
   const [apiKey, setApiKey] = useState(settings.apiKey);
   const handleChange = (event) => {
     setApiKey(event.target.value);
-    validateAPIKey(event.target.value).then((valid) => {
+    validateAPIKey(event.target.value, settings).then((valid) => {
       setValid(valid);
       if (valid) {
         return setSettings((prevState) => {
@@ -47,12 +47,12 @@ const Popup = () => {
   );
 };
 
-async function validateAPIKey(apiKey) {
+async function validateAPIKey(apiKey, settings) {
   if (!apiKey || apiKey.length != 32) {
     return false;
   }
 
-  return await fetch(`${process.env.AI_BASE_URL}/v2/instance`, {
+  return await fetch(`${settings.baseUrl}/v2/instance`, {
     headers: {
       Authorization: apiKey,
     },
