@@ -65,10 +65,37 @@ form {
   width: 272px;
   writing-mode: horizontal-tb;
   font-family: Heebo, HelveticaNeue-Light, 'Helvetica Neue Light';
-  font-size: 22px;
+  font-size: 16px;
+}
+
+#apiKeyWrapper .input-wrapper {
+  display: flex;
+  flex-direction: row;
+  padding-top: 20px;
+}
+
+#apiKeyWrapper input[type="password"] {
   -webkit-text-security: circle;
   -moz-text-security: circle;
   text-security: circle;
+}
+
+#apiKeyWrapper input[type="text"] {
+  color: #9a9a9b;
+}
+
+.api-key-label {
+  position: absolute;
+}
+
+#hidePw {
+  width: 40px;
+  height: 41px;
+  float: right;
+  font-size: 8px;
+  color: black;
+  margin-left: -45px;
+  padding-top: 15px;  
 }
 
 #apiKeyWrapper {
@@ -86,12 +113,6 @@ form {
   transition: border-bottom-color 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   border-bottom: 1px solid rgba(255, 255, 255, 0.7);
   pointer-events: none;
-}
-
-#apiKeyWrapper:focus {
-  font-size: 16.8px;
-  text-security: none;
-  -webkit-text-security: none;
 }
 
 #apiKeyWrapper {
@@ -123,7 +144,6 @@ input:focus + label {
 .message {
   color: rgba(255, 255, 255, 0.7);
   margin: 0;
-  font-size: 1.3714285714285712rem;
   margin-top: 3px;
   text-align: left;
   font-family: Heebo, 'HelveticaNeue-Light', 'Helvetica Neue Light',
@@ -147,12 +167,12 @@ input:focus + label {
   color: rgb(145, 146, 164);
   font-family: Heebo, 'HelveticaNeue-Light', 'Helvetica Neue Light',
   'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
-  font-size: .8rem;
+  font-size: 16px;
   margin-top: 25px;
 }
 
 .ingest-failure {
   color: #f44336;
-  font-size: .8rem;
+  font-size: 16px;
   margin-top: 20px;
 }

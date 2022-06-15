@@ -7,6 +7,7 @@ const Popup = () => {
   const [settings, setSettings] = useSettingsStore();
   const [valid, setValid] = useState(!!settings.apiKey);
   const [apiKey, setApiKey] = useState(settings.apiKey);
+  const [hidePassword, setHidePassword] = useState(true);
   const handleChange = (event) => {
     setApiKey(event.target.value);
     validateAPIKey(event.target.value).then((valid) => {
@@ -22,6 +23,10 @@ const Popup = () => {
       }
     });
   };
+  const onHidePasswordClick = (event) => {
+    event.preventDefault();
+    setHidePassword(!hidePassword);
+  };
 
   return (
     <div className="App">
@@ -32,18 +37,25 @@ const Popup = () => {
             id="apiKeyWrapper"
             className={settings.apiKey && !valid ? 'invalid' : ''}
           >
-            <input
-              type="password"
-              name="apiKey"
-              placeholder="  "
-              defaultValue={settings.apiKey}
-              onChange={handleChange}
-            />
-            <label className="api-key-label">API Key</label>
-            {apiKey && apiKey.length && !valid && (
-              <label className="invalid message">Invalid</label>
-            )}
-            {apiKey && valid && <label className="valid message">Valid</label>}
+            <div className="input-wrapper">
+              <input
+                type={hidePassword ? 'password' : 'text'}
+                name="apiKey"
+                placeholder="  "
+                defaultValue={settings.apiKey}
+                onChange={handleChange}
+              />
+              <label className="api-key-label">API Key</label>
+              {apiKey && apiKey.length && !valid && (
+                <label className="invalid message">Invalid</label>
+              )}
+              {apiKey && valid && (
+                <label className="valid message">Valid</label>
+              )}
+              <span id="hidePw" onClick={onHidePasswordClick}>
+                {!hidePassword ? 'hide' : 'show'}
+              </span>
+            </div>
           </div>
           {settings.resolutionsSubmittedCount && (
             <div className="resolutions">

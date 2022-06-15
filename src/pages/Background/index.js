@@ -88,11 +88,14 @@ class PpdnsBackground {
             this.incrementResolutionCount.bind(this)
           );
         } else {
+          // key is valid, but likely lacks requried features
           chrome.storage.local.get(SETTINGS_KEY, this.ingestError.bind(this));
+          console.error('Recieved unexpected response:', data);
         }
       })
       .catch((error) => {
-        console.error('Error posting ingest:', error);
+        console.error('Error making request:', error);
+        chrome.storage.local.get(SETTINGS_KEY, this.ingestError.bind(this));
       })
       .finally(() => {
         this.submitInProgress = false;
