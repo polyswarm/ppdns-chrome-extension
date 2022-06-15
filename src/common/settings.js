@@ -4,7 +4,7 @@ export const INITIAL_VALUE = {
   apiKey: '',
   ingestSuccess: '',
   resolutionsSubmittedCount: '0',
-  baseUrl: process.env.AI_BASE_URL,
+  baseUrl: process.env.POLYSWARM_API_URL,
 };
 
 export const useSettingsStore = createChromeStorageStateHookLocal(

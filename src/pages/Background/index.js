@@ -68,7 +68,7 @@ class PpdnsBackground {
       return;
     }
 
-    let baseUrl = result.settings.baseUrl || process.env.AI_BASE_URL;
+    let baseUrl = result.settings.baseUrl || process.env.POLYSWARM_API_URL;
     let headers = {
       // todo grab from settings!
       Authorization: apiKey,

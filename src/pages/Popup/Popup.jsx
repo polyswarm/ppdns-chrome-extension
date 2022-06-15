@@ -10,7 +10,7 @@ const Popup = () => {
   const [hidePassword, setHidePassword] = useState(true);
   const handleChange = (event) => {
     setApiKey(event.target.value);
-    validateAPIKey(event.target.value).then((valid) => {
+    validateAPIKey(event.target.value, settings).then((valid) => {
       setValid(valid);
       settings.ingestSuccess = '';
       if (valid) {
@@ -81,12 +81,12 @@ const Popup = () => {
   );
 };
 
-async function validateAPIKey(apiKey) {
+async function validateAPIKey(apiKey, settings) {
   if (!apiKey || apiKey.length != 32) {
     return false;
   }
 
-  return await fetch(`${process.env.AI_BASE_URL}/v2/instance`, {
+  return await fetch(`${settings.baseUrl}/v2/instance`, {
     headers: {
       Authorization: apiKey,
     },
