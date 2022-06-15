@@ -4,6 +4,7 @@ export const INITIAL_VALUE = {
   apiKey: '',
   ingestSuccess: '',
   resolutionsSubmittedCount: '0',
+  baseUrl: process.env.AI_BASE_URL,
 };
 
 export const useSettingsStore = createChromeStorageStateHookLocal(
