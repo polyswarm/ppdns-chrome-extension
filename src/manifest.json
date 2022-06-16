@@ -5,7 +5,7 @@
   "background": {
     "service_worker": "background.bundle.js"
   },
-  "permissions": ["webNavigation", "webRequest", "storage"],
+  "permissions": ["webNavigation", "webRequest", "storage", "notifications"],
   "host_permissions": ["\u003Call_urls>"],
   "action": {
     "default_popup": "popup.html",
