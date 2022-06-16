@@ -11,13 +11,12 @@
 }
 
 .App-logo {
+  position: absolute;
+  top: 50px;
   pointer-events: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  /*.App-logo {*/
-  /*  animation: App-logo-spin infinite 20s linear;*/
-  /*}*/
   .App-logo {
     width: 50%;
   }
@@ -65,7 +64,7 @@ form {
   width: 272px;
   writing-mode: horizontal-tb;
   font-family: Heebo, HelveticaNeue-Light, 'Helvetica Neue Light';
-  font-size: 15px;
+  font-size: 14px;
 }
 
 #apiKeyWrapper .input-wrapper {
@@ -95,9 +94,10 @@ form {
   float: right;
   font-size: 8px;
   color: black;
-  margin-left: -45px;
-  padding-top: 15px;  
+  padding-top: 15px;
+  right: 0;
   opacity: .6;
+  position: absolute;
 }
 
 #apiKeyWrapper {
@@ -166,7 +166,7 @@ input:focus + label {
   color: rgb(145, 146, 164);
   font-family: Heebo, 'HelveticaNeue-Light', 'Helvetica Neue Light',
   'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
-  font-size: 16px;
+  font-size: 14px;
   margin-top: 25px;
 }
 
@@ -174,4 +174,5 @@ input:focus + label {
   color: #f44336;
   font-size: 16px;
   margin-top: 20px;
+  position: absolute;
 }
