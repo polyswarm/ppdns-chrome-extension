@@ -1,8 +1,6 @@
 import debounce from 'lodash.debounce';
 import { SETTINGS_KEY } from '../../common/settings';
 
-const IP_ADDRESS_REGEX =
-  /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
 class PpdnsBackground {
   constructor() {
     this.ppdnsL = new Map();
