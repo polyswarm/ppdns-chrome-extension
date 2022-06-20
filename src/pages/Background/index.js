@@ -135,8 +135,12 @@ class PpdnsBackground {
   incrementResolutionCount(result) {
     chrome.notifications.clear('ingestError');
 
-    var count =
-      parseInt(result.settings.resolutionsSubmittedCount) + this.ppdnsBatchSize;
+    var count = parseInt(result.settings.resolutionsSubmittedCount);
+    if (isNaN(count)) {
+      count = this.ppdnsBatchSize;
+    } else {
+      count += this.ppdnsBatchSize;
+    }
 
     chrome.storage.local.set({
       settings: {
