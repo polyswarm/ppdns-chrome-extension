@@ -22,6 +22,11 @@ class PpdnsBackground {
     if (webRequestBody.ip != null && hostname != null) {
       // todo check if we're a private IP space or proxy
     }
+    if (!this.validateTelemetry(hostname, webRequestBody.ip)) {
+      console.warn(
+        `dropping resolution because a value is missing. host_name:${hostname} ip_address:${webRequestBody.ip}`
+      );
+    }
     let ppdnsK = hostname + webRequestBody.ip;
     if (this.ppdnsL[ppdnsK] != undefined) {
       return;
@@ -37,6 +42,13 @@ class PpdnsBackground {
     if (!this.submitInProgress && this.ppdnsL.size >= this.ppdnsBatchSize) {
       this.debouncedSubmitPpdnsBatch();
     }
+  }
+
+  validateTelemetry(hostname, ip) {
+    if (!hostname || !ip) {
+      return false;
+    }
+    return true;
   }
 
   submitPpdnsBatch() {
@@ -123,8 +135,12 @@ class PpdnsBackground {
   incrementResolutionCount(result) {
     chrome.notifications.clear('ingestError');
 
-    var count =
-      parseInt(result.settings.resolutionsSubmittedCount) + this.ppdnsBatchSize;
+    var count = parseInt(result.settings.resolutionsSubmittedCount);
+    if (isNaN(count)) {
+      count = this.ppdnsBatchSize;
+    } else {
+      count += this.ppdnsBatchSize;
+    }
 
     chrome.storage.local.set({
       settings: {
