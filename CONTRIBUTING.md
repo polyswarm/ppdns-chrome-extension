@@ -1,6 +1,6 @@
-# PolySwarm NectarNet Beta Browser Extension
+# PolySwarm NectarNet Browser Extension
 
-This repository is the source tree for the PolySwarm browser extension for the NectarNet Beta Program.
+This repository is the source tree for the PolySwarm browser extension for the NectarNet Program.
 If you want to help us improve this browser extension, follow the guidance in this document.
 
 # Chrome Extension Development
@@ -10,16 +10,10 @@ Our Chrome extension based off this
 
 ## General
 
-All development is done with Webstorm.
-
-* [Getting Started Guide](https://developer.chrome.com/docs/extensions/mv3/getstarted/)
-* [Webstorm](https://stackoverflow.com/questions/13997468/how-do-i-use-webstorm-for-chrome-extension-development) support for
-code completion on chrome variable will be helpful in extension development.
-
+- [Getting Started Guide](https://developer.chrome.com/docs/extensions/mv3/getstarted/)
 
 ## Getting Running
 
-Run configs are available in `webstorm/runconfigs`.
 See the original boilerplate's [README.md](https://github.com/lxieyang/chrome-extension-boilerplate-react/blob/master/README.md#procedures) for instructions on how to
 use `npm start` and load a development version of the extension in your local chrome browser from
 the `build` folder.
@@ -68,7 +62,6 @@ Anytime a new version is to be released, make sure to update the following:
 1. The [Rewards](https://docs.polyswarm.io/consumers/rewards/#browser-extension) page in the PolySwarm docs.
 2. The `README.md` file in this repository.
 
-
 # Safari Extension Development
 
 COMING SOON...
@@ -76,4 +69,4 @@ COMING SOON...
 # Other Notes
 
 Our Google analytics indicate that 95% of our browser traffic to `.io` and `.network` is
-from Chrome & Safari. Therefore, we'll ignore Firefox for the moment.
+from Chrome & Safari.
