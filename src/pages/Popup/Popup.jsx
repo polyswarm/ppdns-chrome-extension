@@ -72,12 +72,12 @@ const Popup = () => {
             settings.apiKey.length &&
             settings.ingestSuccess == 'false' && (
               <div className="ingest-failure">
-                There was an issue submitting data. Have you joined the beta?{' '}
+                There was an issue submitting data. Have you joined the{' '}
                 <a
                   target="_blank"
-                  href="https://docs.polyswarm.io/consumers/rewards/#rewards"
+                  href="https://polyswarm.network/account/rewards"
                 >
-                  Read the docs.
+                  NectarNet program?
                 </a>
               </div>
             )}
