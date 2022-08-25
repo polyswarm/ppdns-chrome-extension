@@ -126,8 +126,7 @@ class PpdnsBackground {
       type: 'basic',
       iconUrl: 'icon-34.png',
       title: 'Error submitting data',
-      message:
-        'There was an issue submitting data.  Read the docs: https://docs.polyswarm.io/consumers/rewards/#rewards',
+      message: 'There was an issue submitting data.',
       priority: 2,
     });
   }
