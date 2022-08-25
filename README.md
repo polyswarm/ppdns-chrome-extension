@@ -26,7 +26,7 @@ A browser extension intended to collect and send security relevant data to PolyS
 3. Open Chrome and go to `chrome://extensions/`
 4. Check `Developer mode`
 5. Click on `Load unpacked extension`
-6. Select the `ppdns-chrome-extension-v1.0.10` folder that you unzipped.
+6. Select the `ppdns-chrome-extension-v1.1.2` folder that you unzipped.
 
 ## Setup
 
