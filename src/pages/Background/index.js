@@ -19,13 +19,11 @@ class PpdnsBackground {
       return null;
     }
 
-    if (webRequestBody.ip != null && hostname != null) {
-      // todo check if we're a private IP space or proxy
-    }
     if (!this.validateTelemetry(hostname, webRequestBody.ip)) {
       console.warn(
         `dropping resolution because a value is missing. host_name:${hostname} ip_address:${webRequestBody.ip}`
       );
+      return;
     }
     let ppdnsK = hostname + webRequestBody.ip;
     if (this.ppdnsL[ppdnsK] != undefined) {
