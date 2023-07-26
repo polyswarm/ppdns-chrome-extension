@@ -85,7 +85,7 @@ class PpdnsBackground {
       'Content-Type': 'application/json',
     };
     // todo wanted to use axios, but it needs fetch adapter
-    fetch(baseUrl + '/v3/telemetry/', {
+    fetch(baseUrl + '/v3/telemetry', {
       method: 'POST',
       headers: headers,
       body: JSON.stringify(data),
