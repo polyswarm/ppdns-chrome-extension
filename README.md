@@ -21,12 +21,12 @@ A browser extension intended to collect and send security relevant data to PolyS
 
 ### Manual
 
-1. Download the [NectarNet Browser Extension](https://github.com/polyswarm/ppdns-chrome-extension/releases/download/v1.1.3/ppdns-chrome-extension-v1.1.3.zip) .zip file.
-2. Double-click the `ppdns-chrome-extension-v1.1.3.zip` file to unzip it.
+1. Download the [NectarNet Browser Extension](https://github.com/polyswarm/ppdns-chrome-extension/releases/download/v1.1.4/ppdns-chrome-extension-v1.1.4.zip) .zip file.
+2. Double-click the `ppdns-chrome-extension-v1.1.4.zip` file to unzip it.
 3. Open Chrome and go to `chrome://extensions/`
 4. Check `Developer mode`
 5. Click on `Load unpacked extension`
-6. Select the `ppdns-chrome-extension-v1.1.3` folder that you unzipped.
+6. Select the `ppdns-chrome-extension-v1.1.4` folder that you unzipped.
 
 ## Setup
 
