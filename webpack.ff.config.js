@@ -107,7 +107,7 @@ var options = {
   },
   plugins: [
     new ZipPlugin({
-      path: '../',
+      path: '../dist/',
       filename: `ppdns-firefox-extension-v${process.env.npm_package_version}.zip`,
     }),
     new CleanWebpackPlugin({ verbose: false }),
