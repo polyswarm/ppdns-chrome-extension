@@ -2,7 +2,7 @@
 
 set -ex
 
-APPLICATION=${APPLICATION:-web}
+APPLICATION=${APPLICATION:-build}
 PORT=${PORT}
 
 if [ "$APPLICATION" == "web" ] && [ -z "$PORT" ]; then
@@ -10,7 +10,7 @@ if [ "$APPLICATION" == "web" ] && [ -z "$PORT" ]; then
 fi
 
 case "$APPLICATION" in
-  web) exec yarn serve -p $PORT ;;
+  web) exec npm run start -p $PORT ;;
   build) exec make browser-extensions ;;
   test) exec yarn test:ci ;;
   debug) exec sleep infinity ;;

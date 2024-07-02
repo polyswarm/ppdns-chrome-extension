@@ -34,6 +34,5 @@ COPY . .
 # Run
 EXPOSE 8080
 
-RUN make browser-extensions
-
+ENTRYPOINT ["/bin/bash", "-c"]
 CMD ["./docker/run.sh"]
