@@ -5,13 +5,13 @@ services:
 
 stages:
   - build
-  - test
-  - e2e
-  - release
-  - deployment
+  # - test
+  # - e2e
+  # - release
+  # - deployment
 
 variables:
-  BASE_IMAGE_NAME: portal-frontend
+  BASE_IMAGE_NAME: ppdns-extensions
   DOCKER_HOST: tcp://localhost:2376
   DOCKER_TLS_CERTDIR: "/certs"
   DOCKER_TLS_VERIFY: 1
@@ -76,23 +76,23 @@ build-prod:
 # End-to-end Stage
 ###############################################################
 
-e2e:
-  stage: e2e
-  tags:
-    - kube-new
-  script:
-    - e2e run
+# e2e:
+#   stage: e2e
+#   tags:
+#     - kube-new
+#   script:
+#     - e2e run
 
 ###############################################################
 # Release Stage
 ###############################################################
 
-release:
-  stage: release
-  tags:
-    - kube-small-new
-  script:
-    - docker manifest create $REPO_URL/$BASE_IMAGE_NAME:latest $REPO_URL/$BASE_IMAGE_NAME:$CI_COMMIT_SHA
-    - docker manifest push $REPO_URL/$BASE_IMAGE_NAME:latest
-  only:
-    - master
+# release:
+#   stage: release
+#   tags:
+#     - kube-small-new
+#   script:
+#     - docker manifest create $REPO_URL/$BASE_IMAGE_NAME:latest $REPO_URL/$BASE_IMAGE_NAME:$CI_COMMIT_SHA
+#     - docker manifest push $REPO_URL/$BASE_IMAGE_NAME:latest
+#   only:
+#     - master
