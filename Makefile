@@ -2,7 +2,7 @@ browser-extensions:
 	npm run build
 
 check-apikey:
-		curl 'http://artifact-index-e2e:9696//v2/instance' \
+		curl '$POLYSWARM_API_URL/v2/instance' \
 		  -H 'authority: api.stage-new.polyswarm.network' \
 		  -H 'accept: */*' \
 		  -H 'accept-language: pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7' \
@@ -17,7 +17,7 @@ check-apikey:
 		  --compressed ;
 
 produce-telemetry:
-		curl 'http://artifact-index-e2e:9696//v3/telemetry/' \
+		curl '$POLYSWARM_API_URL/v3/telemetry/' \
           -H 'authority: api.stage-new.polyswarm.network' \
           -H 'accept: */*' \
           -H 'accept-language: pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7' \
