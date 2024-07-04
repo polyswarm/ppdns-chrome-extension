@@ -22,7 +22,7 @@ class PpdnsBackground {
         console.debug('Not in a Chrome-ish browser, or something changed.');
       }
 
-      if (!this.version){
+      if (!this.version) {
         try {
           console.debug('Assuming to be running in a Firefox browser.');
           this.version = (await browser.management.getSelf()).version;
