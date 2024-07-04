@@ -17,8 +17,8 @@ check-apikey:
 		  --compressed ;
 
 produce-telemetry:
-		curl '$POLYSWARM_API_URL/v3/telemetry/' \
-          -H 'authority: $POLYSWARM_API_URL' \
+		curl "${POLYSWARM_API_URL}/v3/telemetry/" \
+          -H "authority: ${POLYSWARM_API_URL}" \
           -H 'accept: */*' \
           -H 'accept-language: pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7' \
           -H 'authorization: 11111111111111111111111111111111' \
