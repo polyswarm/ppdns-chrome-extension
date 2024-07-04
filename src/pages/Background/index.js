@@ -7,6 +7,34 @@ class PpdnsBackground {
     this.ppdnsBatchSize = parseInt(process.env.BATCH_SIZE);
     this.submitInProgress = false;
     this.debouncedSubmitPpdnsBatch = debounce(this.submitPpdnsBatch, 500);
+    this.version = null;
+    this.getVersion().finally(() => {
+      console.info('Extension version detected: ' + this.version);
+    });
+  }
+
+  async getVersion() {
+    if (!this.version) {
+      try {
+        console.debug('Assuming to be running in a Chrome-ish browser.');
+        this.version = (await chrome.management.getSelf()).version;
+      } catch (error) {
+        console.debug('Not in a Chrome-ish browser, or something changed.');
+      }
+
+      if (!this.version) {
+        try {
+          console.debug('Assuming to be running in a Firefox browser.');
+          this.version = (await browser.management.getSelf()).version;
+        } catch (error) {
+          console.debug('Not in a Firefox browser, or something changed.');
+          console.info('Letting the version unknown');
+          this.version = '(unknown)';
+        }
+      }
+    }
+
+    return this.version;
   }
 
   logPpdnsRequest(webRequestBody) {
@@ -62,6 +90,7 @@ class PpdnsBackground {
     this.ppdnsL.clear();
     let data = {
       resolutions: Array.from(toSubmit.values()),
+      sender_version: this.version,
     };
     if (
       typeof result.settings === 'undefined' ||
