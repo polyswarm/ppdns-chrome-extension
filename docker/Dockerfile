@@ -14,7 +14,7 @@ ENV REACT_APP_URL=http://portal-frontend-e2e:8080 \
 
 RUN echo "http://dl-cdn.alpinelinux.org/alpine/v3.17/main" >> /etc/apk/repositories \
   && apk upgrade -U -a \
-  && apk add --no-cache chromium ffmpeg curl \
+  && apk add --no-cache chromium curl \
   && apk add --no-cache build-base bash \
   && apk add --no-cache python3 py3-pip
 
