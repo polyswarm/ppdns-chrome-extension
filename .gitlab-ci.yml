@@ -55,21 +55,21 @@ default:
 build-local:
   extends: .BUILD
   environment:
-    POLYSWARM_API_URL=http://artifact-index-e2e:9696
-    BATCH_SIZE=3
-    NODE_ENV=development
+    POLYSWARM_API_URL: http://artifact-index-e2e:9696
+    BATCH_SIZE: 3
+    NODE_ENV: development
 
 
 build-stage:
   extends: .BUILD
   environment:
-    POLYSWARM_API_URL=https://api.stage-v3.polyswarm.network
-    BATCH_SIZE=10
-    NODE_ENV=production
+    POLYSWARM_API_URL: https://api.stage-v3.polyswarm.network
+    BATCH_SIZE: 10
+    NODE_ENV: production
 
 
 build-prod:
   extends: .BUILD
   environment:
-    POLYSWARM_API_URL=https://api.polyswarm.network
-    NODE_ENV=production
+    POLYSWARM_API_URL: https://api.polyswarm.network
+    NODE_ENV: production
