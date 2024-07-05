@@ -47,7 +47,7 @@ default:
       $REPO_URL/$BASE_IMAGE_NAME:$CI_COMMIT_REF_SLUG
 
   artifacts:
-    name: "extensions-$CI_JOB_NAME-$CI_COMMIT_SHA.zip"
+    name: "extensions-$CI_JOB_NAME-$CI_COMMIT_SHA"
     paths:
     - "dist/*.zip"
     expire_in: 1 week
