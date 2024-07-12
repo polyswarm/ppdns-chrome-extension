@@ -48,9 +48,42 @@ afterEach(async () => {
     browser = undefined;
 });
 
-test('dummy test to ensure test infra correctness', async () => {
-    const page = await browser.newPage();
+test('ensure that the extension is installed correctly', async () => {
+    const userPage = await browser.newPage();
 
-    // await page.goto(`chrome-extension://${EXTENSION_ID}/popup.html`);
-    await page.goto(`http://httpbin.org`);
-});
+    const workerTarget = await browser.waitForTarget(
+        target => target.type() === 'service_worker' && target.url().endsWith('background.bundle.js')
+    );
+    const extensionWorker = await workerTarget.worker();
+
+    let serviceWorker = await extensionWorker.evaluate(() => {
+        return this.serviceWorker;
+    });
+
+    // Successifully installed the Service Worker of the extension?
+    expect(serviceWorker).not.toBeUndefined();
+
+    userPage.once('load', () => console.log('Page loaded!'));
+
+    await userPage.goto(`http://httpbin.org`);
+    await userPage.goto(`http://pudim.com.br`);
+
+    // TODO: Test that no buffer was sent.
+
+    await userPage.goto(`http://yahoo.com`);
+    await userPage.goto(`http://polyswarm.network`);
+
+    // TODO: Test that some buffer was sent.
+
+    // Test that the serviceWorker had not died:
+    serviceWorker = await extensionWorker.evaluate(() => {
+        return this.serviceWorker;
+    });
+    expect(serviceWorker).not.toBeUndefined();
+
+}, 60*1000);
+
+
+function sleep(ms) {
+    return new Promise((resolve) => setTimeout(() => resolve(), ms));
+}
