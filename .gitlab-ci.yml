@@ -5,7 +5,7 @@ services:
 
 stages:
   - build
-  # - test
+  - test
   # - e2e
   # - release
   # - deployment
@@ -74,3 +74,17 @@ build-prod:
   variables:
     POLYSWARM_API_URL: https://api.polyswarm.network
     NODE_ENV: production
+
+
+test-local:
+  needs: ['build-local']
+  stage: test
+  tags:
+    - kube-new
+  script:
+    # try to download the multi-stage dependant image and retag it as latest
+    - e2e dependencies docker/Dockerfile
+    - docker pull $REPO_URL/$BASE_IMAGE_NAME:$CI_COMMIT_SHA
+    - docker run
+      -e APPLICATION=test
+      $REPO_URL/$BASE_IMAGE_NAME:$CI_COMMIT_REF_SLUG
