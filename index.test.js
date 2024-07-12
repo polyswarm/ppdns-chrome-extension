@@ -55,16 +55,16 @@ test('ensure that the extension is installed correctly', async () => {
     );
     const extensionWorker = await workerTarget.worker();
 
-    let serviceWorker = await extensionWorker.evaluate(() => {
-        return this.serviceWorker;
-    });
-
-    // Successifully installed the Service Worker of the extension?
-    expect(serviceWorker).not.toBeUndefined();
-
     userPage.once('load', () => console.log('Page loaded!'));
 
     await userPage.goto(`http://httpbin.org`);
+
+    // Successifully installed the Service Worker of the extension?
+    let serviceWorker = await extensionWorker.evaluate(() => {
+        return this.serviceWorker;
+    });
+    expect(serviceWorker).not.toBeUndefined();
+
     await userPage.goto(`http://pudim.com.br`);
 
     // TODO: Test that no buffer was sent.
