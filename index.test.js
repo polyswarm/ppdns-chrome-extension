@@ -32,7 +32,7 @@ function getExtensionId(extensionPath) {
 EXTENSION_ID = getExtensionId(EXTENSION_PATH);
 
 beforeEach(async () => {
-    // TODO: Launch the browser;
+    // Launch the browser;
     browser = await puppeteer.launch({
         headless: 'new', // false,
         args: [
@@ -43,7 +43,7 @@ beforeEach(async () => {
 });
 
 afterEach(async () => {
-    // TODO: Close the browser;
+    // Close the browser;
     await browser.close();
     browser = undefined;
 });
@@ -84,6 +84,7 @@ test('ensure that the extension is installed correctly', async () => {
 }, 60*1000);
 
 
-function sleep(ms) {
+// Some development helper
+function _sleep(ms) {
     return new Promise((resolve) => setTimeout(() => resolve(), ms));
 }
