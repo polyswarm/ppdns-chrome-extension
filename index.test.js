@@ -44,8 +44,7 @@ beforeEach(async () => {
 
 afterEach(async () => {
     // Close the browser;
-    await browser.close();
-    browser = undefined;
+    browser && await browser.close();
 });
 
 test('ensure that the extension is installed correctly', async () => {
