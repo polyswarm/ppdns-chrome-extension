@@ -34,7 +34,7 @@ EXTENSION_ID = getExtensionId(EXTENSION_PATH);
 beforeEach(async () => {
     // TODO: Launch the browser;
     browser = await puppeteer.launch({
-        headless: false,
+        headless: 'new', // false,
         args: [
             `--disable-extensions-except=${EXTENSION_PATH}`,
             `--load-extension=${EXTENSION_PATH}`,
