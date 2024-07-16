@@ -1,5 +1,6 @@
 import debounce from 'lodash.debounce';
-import { SETTINGS_KEY } from '../../common/settings';
+import {SETTINGS_KEY, initStorage} from '../../common/settings';
+
 
 class PpdnsBackground {
   constructor() {
@@ -11,6 +12,14 @@ class PpdnsBackground {
     this.getVersion().finally(() => {
       console.info('Extension version detected: ' + this.version);
     });
+
+    this.initStorage();
+  }
+
+  initStorage() {
+    if (!!chrome.storage.local.get(SETTINGS_KEY)){
+      initStorage(chrome.storage.local);
+    }
   }
 
   async getVersion() {

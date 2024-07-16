@@ -11,3 +11,11 @@ export const useSettingsStore = createChromeStorageStateHookLocal(
   SETTINGS_KEY,
   INITIAL_VALUE
 );
+
+export const initStorage = (storage) => {
+  if (!!storage.get(SETTINGS_KEY)){
+    let storage_map = {};
+    storage_map[SETTINGS_KEY] = INITIAL_VALUE;
+    storage.set(storage_map);
+  }
+};
