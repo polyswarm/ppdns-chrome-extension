@@ -163,7 +163,9 @@ class PpdnsBackground {
       iconUrl: 'icon-34.png',
       title: 'Error submitting data',
       message: 'There was an issue submitting data.',
+      contextMessage: 'PolySwarm Extension',
       priority: 2,
+      silent: true,
     });
   }
 
