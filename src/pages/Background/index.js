@@ -1,5 +1,6 @@
 import debounce from 'lodash.debounce';
-import { SETTINGS_KEY } from '../../common/settings';
+import {SETTINGS_KEY, initStorage, updateStorageField} from '../../common/settings';
+
 
 class PpdnsBackground {
   constructor() {
@@ -11,6 +12,14 @@ class PpdnsBackground {
     this.getVersion().finally(() => {
       console.info('Extension version detected: ' + this.version);
     });
+
+    this.initStorage();
+  }
+
+  async initStorage() {
+    if (!!chrome.storage.local.get(SETTINGS_KEY)){
+      await initStorage(chrome.storage.local);
+    }
   }
 
   async getVersion() {
@@ -28,7 +37,7 @@ class PpdnsBackground {
           this.version = (await browser.management.getSelf()).version;
         } catch (error) {
           console.debug('Not in a Firefox browser, or something changed.');
-          console.info('Letting the version unknown');
+          console.info('Letting the version "unknown"');
           this.version = '(unknown)';
         }
       }
@@ -96,14 +105,16 @@ class PpdnsBackground {
       typeof result.settings === 'undefined' ||
       typeof result.settings.apiKey === 'undefined'
     ) {
-      console.error('no settings in local store');
+      console.warn('no settings in local store');
       this.submitInProgress = false;
+      chrome.storage.local.get(SETTINGS_KEY, this.ingestError.bind(this));
       return;
     }
     let apiKey = result.settings ? result.settings.apiKey : '';
     if (apiKey === undefined || apiKey == '') {
       console.error('failed to get API key from local storage');
       this.submitInProgress = false;
+      chrome.storage.local.get(SETTINGS_KEY, this.ingestError.bind(this));
       return;
     }
 
@@ -141,20 +152,48 @@ class PpdnsBackground {
       });
   }
 
-  ingestError(result) {
-    chrome.storage.local.set({
-      settings: {
-        apiKey: result.settings.apiKey,
-        ingestSuccess: 'false',
-        resolutionsSubmittedCount: result.settings.resolutionsSubmittedCount,
-      },
-    });
+  async ingestError(result) {
+    await updateStorageField(chrome.storage.local, SETTINGS_KEY, 'ingestSuccess', 'false');
+
+    const snoozedUntil = (await chrome.storage.local.get(SETTINGS_KEY))[SETTINGS_KEY].snoozedUntil;
+    if (Number(snoozedUntil) >= Date.now()){
+      // Snoozed.
+      console.info('Notification: ingestError [snoozed until %s]', snoozedUntil);
+      return
+    }
+
     chrome.notifications.create('ingestError', {
       type: 'basic',
       iconUrl: 'icon-34.png',
       title: 'Error submitting data',
       message: 'There was an issue submitting data.',
+      contextMessage: 'PolySwarm Extension',
       priority: 2,
+      silent: true,
+      buttons: [
+        { title: 'Snooze until tomorrow' },
+        { title: 'Dismiss' },
+      ],
+    }, function callback(notificationId) {
+      console.info('Notification: ingestError');
+      // nothing necessary here, but required before Chrome 42
+    });
+
+    chrome.notifications.onButtonClicked.addListener(async (notificationId, buttonIndex) => {
+      console.debug('Button clicked: [%s] %s', notificationId, buttonIndex);
+
+      let currentSnoozedUntil = (await chrome.storage.local.get(SETTINGS_KEY))[SETTINGS_KEY].snoozedUntil;
+      console.debug('Current "snoozedUntil": %s', currentSnoozedUntil);
+
+      let snoozedUntil = (Date.now() + 86400000).toString(); // now + 1 day
+      await updateStorageField(chrome.storage.local, SETTINGS_KEY, 'snoozedUntil', snoozedUntil)
+
+      console.debug('Snoozed until %s', (await chrome.storage.local.get(SETTINGS_KEY))[SETTINGS_KEY].snoozedUntil);
+    });
+
+    chrome.notifications.onClicked.addListener(async (notificationId) => {
+      console.debug('Notification clicked: %s', notificationId);
+      // TODO: Open some detail page onClicked of notification
     });
   }
 
@@ -173,6 +212,7 @@ class PpdnsBackground {
         apiKey: result.settings.apiKey,
         ingestSuccess: 'true',
         resolutionsSubmittedCount: count.toString(),
+        snoozedUntil: 0,
       },
     });
   }
