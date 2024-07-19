@@ -107,12 +107,14 @@ class PpdnsBackground {
     ) {
       console.error('no settings in local store');
       this.submitInProgress = false;
+      chrome.storage.local.get(SETTINGS_KEY, this.ingestError.bind(this));
       return;
     }
     let apiKey = result.settings ? result.settings.apiKey : '';
     if (apiKey === undefined || apiKey == '') {
       console.error('failed to get API key from local storage');
       this.submitInProgress = false;
+      chrome.storage.local.get(SETTINGS_KEY, this.ingestError.bind(this));
       return;
     }
 
