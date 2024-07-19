@@ -152,6 +152,14 @@ class PpdnsBackground {
 
   async ingestError(result) {
     await updateStorageField(chrome.storage.local, SETTINGS_KEY, 'ingestSuccess', 'false');
+
+    const snoozedUntil = (await chrome.storage.local.get(SETTINGS_KEY))[SETTINGS_KEY].snoozedUntil;
+    if (Number(snoozedUntil) >= Date.now()){
+      // Snoozed.
+      console.info('Notification: ingestError [snoozed until %s]', snoozedUntil);
+      return
+    }
+
     chrome.notifications.create('ingestError', {
       type: 'basic',
       iconUrl: 'icon-34.png',
