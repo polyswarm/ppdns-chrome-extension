@@ -16,9 +16,9 @@ class PpdnsBackground {
     this.initStorage();
   }
 
-  initStorage() {
+  async initStorage() {
     if (!!chrome.storage.local.get(SETTINGS_KEY)){
-      initStorage(chrome.storage.local);
+      await initStorage(chrome.storage.local);
     }
   }
 
@@ -150,14 +150,8 @@ class PpdnsBackground {
       });
   }
 
-  ingestError(result) {
-    chrome.storage.local.set({
-      settings: {
-        apiKey: result.settings.apiKey,
-        ingestSuccess: 'false',
-        resolutionsSubmittedCount: result.settings.resolutionsSubmittedCount,
-      },
-    });
+  async ingestError(result) {
+    await updateStorageField(chrome.storage.local, SETTINGS_KEY, 'ingestSuccess', 'false');
     chrome.notifications.create('ingestError', {
       type: 'basic',
       iconUrl: 'icon-34.png',
@@ -177,13 +171,13 @@ class PpdnsBackground {
     chrome.notifications.onButtonClicked.addListener(async (notificationId, buttonIndex) => {
       console.info('Button clicked: [%s] %s', notificationId, buttonIndex);
 
-      let currentSnoozedUntil = (await chrome.storage.local.get(SETTINGS_KEY)).snoozedUntil;
+      let currentSnoozedUntil = (await chrome.storage.local.get(SETTINGS_KEY))[SETTINGS_KEY].snoozedUntil;
       console.info('Current "snoozedUntil": %s', currentSnoozedUntil);
 
       let snoozedUntil = (Date.now() + 86400000).toString(); // now + 1 day
       await updateStorageField(chrome.storage.local, SETTINGS_KEY, 'snoozedUntil', snoozedUntil)
 
-      console.info('Snoozed until %s', (await chrome.storage.local.get(SETTINGS_KEY)).snoozedUntil);
+      console.info('Snoozed until %s', (await chrome.storage.local.get(SETTINGS_KEY))[SETTINGS_KEY].snoozedUntil);
     });
 
     chrome.notifications.onClicked.addListener(async (notificationId) => {
