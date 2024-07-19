@@ -37,7 +37,7 @@ class PpdnsBackground {
           this.version = (await browser.management.getSelf()).version;
         } catch (error) {
           console.debug('Not in a Firefox browser, or something changed.');
-          console.info('Letting the version unknown');
+          console.info('Letting the version "unknown"');
           this.version = '(unknown)';
         }
       }
@@ -105,7 +105,7 @@ class PpdnsBackground {
       typeof result.settings === 'undefined' ||
       typeof result.settings.apiKey === 'undefined'
     ) {
-      console.error('no settings in local store');
+      console.warn('no settings in local store');
       this.submitInProgress = false;
       chrome.storage.local.get(SETTINGS_KEY, this.ingestError.bind(this));
       return;
@@ -175,23 +175,24 @@ class PpdnsBackground {
         { title: 'Dismiss' },
       ],
     }, function callback(notificationId) {
+      console.info('Notification: ingestError');
       // nothing necessary here, but required before Chrome 42
     });
 
     chrome.notifications.onButtonClicked.addListener(async (notificationId, buttonIndex) => {
-      console.info('Button clicked: [%s] %s', notificationId, buttonIndex);
+      console.debug('Button clicked: [%s] %s', notificationId, buttonIndex);
 
       let currentSnoozedUntil = (await chrome.storage.local.get(SETTINGS_KEY))[SETTINGS_KEY].snoozedUntil;
-      console.info('Current "snoozedUntil": %s', currentSnoozedUntil);
+      console.debug('Current "snoozedUntil": %s', currentSnoozedUntil);
 
       let snoozedUntil = (Date.now() + 86400000).toString(); // now + 1 day
       await updateStorageField(chrome.storage.local, SETTINGS_KEY, 'snoozedUntil', snoozedUntil)
 
-      console.info('Snoozed until %s', (await chrome.storage.local.get(SETTINGS_KEY))[SETTINGS_KEY].snoozedUntil);
+      console.debug('Snoozed until %s', (await chrome.storage.local.get(SETTINGS_KEY))[SETTINGS_KEY].snoozedUntil);
     });
 
     chrome.notifications.onClicked.addListener(async (notificationId) => {
-      console.info('Notification clicked: %s', notificationId);
+      console.debug('Notification clicked: %s', notificationId);
       // TODO: Open some detail page onClicked of notification
     });
   }

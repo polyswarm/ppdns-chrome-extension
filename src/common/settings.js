@@ -22,8 +22,11 @@ export const initStorage = async (storage) => {
 };
 
 export const updateStorageField = async (storage, key, field, value) => {
+  console.debug('Updating the local storage with: %s.%s = %s', key, field, value);
+
   let storage_map = await storage.get(key);
   if (Object.keys(storage_map).length == 0){
+    console.info('Storage key "%s" found empty. Initializing with default data', key);
     await initStorage(storage);
     storage_map = await storage.get(key);
   }
