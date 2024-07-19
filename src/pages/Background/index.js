@@ -1,5 +1,5 @@
 import debounce from 'lodash.debounce';
-import {SETTINGS_KEY, initStorage} from '../../common/settings';
+import {SETTINGS_KEY, initStorage, updateStorageField} from '../../common/settings';
 
 
 class PpdnsBackground {
@@ -166,6 +166,29 @@ class PpdnsBackground {
       contextMessage: 'PolySwarm Extension',
       priority: 2,
       silent: true,
+      buttons: [
+        { title: 'Snooze until tomorrow' },
+        { title: 'Dismiss' },
+      ],
+    }, function callback(notificationId) {
+      // nothing necessary here, but required before Chrome 42
+    });
+
+    chrome.notifications.onButtonClicked.addListener(async (notificationId, buttonIndex) => {
+      console.info('Button clicked: [%s] %s', notificationId, buttonIndex);
+
+      let currentSnoozedUntil = (await chrome.storage.local.get(SETTINGS_KEY)).snoozedUntil;
+      console.info('Current "snoozedUntil": %s', currentSnoozedUntil);
+
+      let snoozedUntil = (Date.now() + 86400000).toString(); // now + 1 day
+      await updateStorageField(chrome.storage.local, SETTINGS_KEY, 'snoozedUntil', snoozedUntil)
+
+      console.info('Snoozed until %s', (await chrome.storage.local.get(SETTINGS_KEY)).snoozedUntil);
+    });
+
+    chrome.notifications.onClicked.addListener(async (notificationId) => {
+      console.info('Notification clicked: %s', notificationId);
+      // TODO: Open some detail page onClicked of notification
     });
   }
 
@@ -184,6 +207,7 @@ class PpdnsBackground {
         apiKey: result.settings.apiKey,
         ingestSuccess: 'true',
         resolutionsSubmittedCount: count.toString(),
+        snoozedUntil: 0,
       },
     });
   }
