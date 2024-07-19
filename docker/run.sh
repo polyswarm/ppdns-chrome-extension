@@ -12,7 +12,7 @@ fi
 case "$APPLICATION" in
   web) exec npm run start -p $PORT ;;
   build) exec make browser-extensions ;;
-  test) exec yarn test:ci ;;
+  test) exec npm run test ;;
   debug) exec sleep infinity ;;
   *) echo "The environment variable APPLICATION must be provided." && exit 1 ;;
 esac
