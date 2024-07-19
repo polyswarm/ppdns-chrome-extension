@@ -17,7 +17,7 @@ class PpdnsBackground {
   }
 
   async initStorage() {
-    if (!!chrome.storage.local.get(SETTINGS_KEY)){
+    if (Object.keys(chrome.storage.local.get(SETTINGS_KEY)).length == 0){
       await initStorage(chrome.storage.local);
     }
   }
