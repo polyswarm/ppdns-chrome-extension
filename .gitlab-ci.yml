@@ -73,4 +73,5 @@ build-prod:
   extends: .BUILD
   variables:
     POLYSWARM_API_URL: https://api.polyswarm.network
+    BATCH_SIZE: 10
     NODE_ENV: production
