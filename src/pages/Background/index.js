@@ -17,7 +17,7 @@ class PpdnsBackground {
   }
 
   async initStorage() {
-    if (!!chrome.storage.local.get(SETTINGS_KEY)){
+    if (Object.keys(chrome.storage.local.get(SETTINGS_KEY)).length == 0){
       await initStorage(chrome.storage.local);
     }
   }
@@ -207,14 +207,8 @@ class PpdnsBackground {
       count += this.ppdnsBatchSize;
     }
 
-    chrome.storage.local.set({
-      settings: {
-        apiKey: result.settings.apiKey,
-        ingestSuccess: 'true',
-        resolutionsSubmittedCount: count.toString(),
-        snoozedUntil: 0,
-      },
-    });
+    updateStorageField(chrome.storage.local, SETTINGS_KEY, ingestSuccess, 'true');
+    updateStorageField(chrome.storage.local, SETTINGS_KEY, resolutionsSubmittedCount, count.toString());
   }
 }
 
