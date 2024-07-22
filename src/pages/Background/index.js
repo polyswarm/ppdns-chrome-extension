@@ -181,6 +181,10 @@ class PpdnsBackground {
 
     chrome.notifications.onButtonClicked.addListener(async (notificationId, buttonIndex) => {
       console.debug('Button clicked: [%s] %s', notificationId, buttonIndex);
+      if (notificationId != 'ingestError' || buttonIndex != 1){
+        console.debug('No action for button %1 click on notification %s', buttonIndex, notificationId);
+        return
+      }
 
       let currentSnoozedUntil = (await chrome.storage.local.get(SETTINGS_KEY))[SETTINGS_KEY].snoozedUntil;
       console.debug('Current "snoozedUntil": %s', currentSnoozedUntil);
