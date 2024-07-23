@@ -228,8 +228,8 @@ class PpdnsBackground {
       count += this.ppdnsBatchSize;
     }
 
-    updateStorageField(this.storage, SETTINGS_KEY, ingestSuccess, 'true');
-    updateStorageField(this.storage, SETTINGS_KEY, resolutionsSubmittedCount, count.toString());
+    updateStorageField(this.storage, SETTINGS_KEY, 'ingestSuccess', 'true');
+    updateStorageField(this.storage, SETTINGS_KEY, 'resolutionsSubmittedCount', count.toString());
   }
 }
 
