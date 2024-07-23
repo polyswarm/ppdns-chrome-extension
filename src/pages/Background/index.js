@@ -174,7 +174,7 @@ class PpdnsBackground {
       type: 'basic',
       iconUrl: 'icon-34.png',
       title: 'Error submitting data',
-      message: 'Consider to check your API Key in the PolySwarm website.',
+      message: 'Check that you entered your API Key correctly from your account settings at polyswarm.network/account/api-keys\n\xa0\nClick here to open in a new tab',
       contextMessage: 'PolySwarm Extension',
       priority: 2,
       silent: true,
@@ -193,10 +193,14 @@ class PpdnsBackground {
       // nothing necessary here, but required before Chrome 42
     });
 
-    chrome.notifications.onClicked.addListener(async (notificationId) => {
-      console.debug('Notification clicked: %s', notificationId);
-      // TODO: Open some detail page onClicked of notification
-    });
+    if (!chrome.notifications.onClicked.hasListeners()){
+      chrome.notifications.onClicked.addListener(async (notificationId) => {
+        console.debug('Notification clicked: %s', notificationId);
+        await chrome.tabs.create({ url: 'https://polyswarm.network/account/api-keys' }).then(
+          tab => { console.info('Tab opened in Polyswarm website: %s', tab); }
+        );
+      });
+    }
 
     // Firefox accepts no buttons on notifications. Too bad for it.
     if (!isFirefox){
