@@ -163,7 +163,7 @@ class PpdnsBackground {
   async ingestError(result) {
     await updateStorageField(this.storage, SETTINGS_KEY, 'ingestSuccess', 'false');
 
-    const snoozedUntil = (await this.storage.get(SETTINGS_KEY))[SETTINGS_KEY].snoozedUntil;
+    let snoozedUntil = (await this.storage.get(SETTINGS_KEY))[SETTINGS_KEY].snoozedUntil;
     if (Number(snoozedUntil) >= Date.now()){
       // Snoozed.
       console.info('Notification: ingestError [snoozed until %s]', snoozedUntil);
@@ -217,9 +217,15 @@ class PpdnsBackground {
         let snoozedUntil = (Date.now() + 86400000).toString(); // now + 1 day
         await updateStorageField(this.storage, SETTINGS_KEY, 'snoozedUntil', snoozedUntil)
 
-        console.debug('Snoozed until %s', (await this.storage.get(SETTINGS_KEY))[SETTINGS_KEY].snoozedUntil);
+        console.debug('Snoozed until %s [now + 1day]', (await this.storage.get(SETTINGS_KEY))[SETTINGS_KEY].snoozedUntil);
       });
     }
+
+    // Snooze notifications for 5 min at least, even with no clicks.
+    console.debug('Current "snoozedUntil": %s', snoozedUntil);
+    snoozedUntil = (Date.now() + 300*1000).toString(); // now + 5 minutes
+    await updateStorageField(this.storage, SETTINGS_KEY, 'snoozedUntil', snoozedUntil)
+    console.debug('Snoozed until %s [now + 5min]', (await this.storage.get(SETTINGS_KEY))[SETTINGS_KEY].snoozedUntil);
   }
 
   incrementResolutionCount(result) {
