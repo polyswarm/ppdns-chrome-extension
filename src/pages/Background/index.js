@@ -203,7 +203,7 @@ class PpdnsBackground {
     }
 
     // Firefox accepts no buttons on notifications. Too bad for it.
-    if (!isFirefox){
+    if (!isFirefox && chrome.notifications.onButtonClicked.hasListeners()){
       chrome.notifications.onButtonClicked.addListener(async (notificationId, buttonIndex) => {
         console.debug('Button clicked: [%s] %s', notificationId, buttonIndex);
         if (notificationId != 'ingestError' || buttonIndex != 0){
