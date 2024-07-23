@@ -42,7 +42,7 @@ default:
     - docker push $REPO_URL/$BASE_IMAGE_NAME:$CI_COMMIT_SHA
     - docker push $REPO_URL/$BASE_IMAGE_NAME:$CI_COMMIT_REF_SLUG
     - docker run
-      -e POLYSWARM_API_URL -e BATCH_SIZE -e APPLICATION=build
+      -e POLYSWARM_API_URL -e BATCH_SIZE -e NODE_ENV -e APPLICATION=build
       -v $PWD/dist:/usr/src/app/dist:rw
       $REPO_URL/$BASE_IMAGE_NAME:$CI_COMMIT_REF_SLUG
 
@@ -73,4 +73,7 @@ build-prod:
   extends: .BUILD
   variables:
     POLYSWARM_API_URL: https://api.polyswarm.network
+    BATCH_SIZE: 10
     NODE_ENV: production
+  only:
+    - prod
