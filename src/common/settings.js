@@ -8,6 +8,8 @@ export const INITIAL_VALUE = {
   snoozedUntil: '0',
 };
 
+export const isFirefox = typeof InstallTrigger !== 'undefined';
+
 export const useSettingsStore = createChromeStorageStateHookLocal(
   SETTINGS_KEY,
   INITIAL_VALUE
@@ -18,7 +20,7 @@ export const initStorage = async (storage) => {
   if (isStorageEmpty(storage_map)){
     let storage_map = {};  // May still be "undefined" on Firefox
     storage_map[SETTINGS_KEY] = INITIAL_VALUE;
-    await storage.set(storage_map);
+    await storage.set(storage_map).then(res => console.debug('Initialized %s: %s', SETTINGS_KEY, res));
   }
 };
 

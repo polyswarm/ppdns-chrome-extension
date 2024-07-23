@@ -1,9 +1,16 @@
 import debounce from 'lodash.debounce';
-import {SETTINGS_KEY, initStorage, updateStorageField} from '../../common/settings';
+import {SETTINGS_KEY, initStorage, updateStorageField, isStorageEmpty, isFirefox} from '../../common/settings';
 
 
 class PpdnsBackground {
   constructor() {
+    // Use the Firefox API in Chrome
+    if (isFirefox){
+      this.storage = browser.storage.local;
+    }else{
+      this.storage = chrome.storage.local;
+    }
+
     this.ppdnsL = new Map();
     this.ppdnsBatchSize = parseInt(process.env.BATCH_SIZE);
     this.submitInProgress = false;
@@ -17,8 +24,9 @@ class PpdnsBackground {
   }
 
   async initStorage() {
-    if (Object.keys(chrome.storage.local.get(SETTINGS_KEY)).length == 0){
-      await initStorage(chrome.storage.local);
+    let storage_map = await this.storage.get(SETTINGS_KEY);
+    if (isStorageEmpty(storage_map)){
+      await initStorage(this.storage);
     }
   }
 
@@ -89,7 +97,7 @@ class PpdnsBackground {
   submitPpdnsBatch() {
     /* TODO ttl on ppdns resolutions ... there are alot of same IPs and this is rather high volume, almost want a bloom ttl */
     /* todo throw error on API key fail */
-    chrome.storage.local.get(SETTINGS_KEY, this.cbX.bind(this));
+    this.storage.get(SETTINGS_KEY, this.cbX.bind(this));
   }
 
   cbX(result) {
@@ -107,14 +115,14 @@ class PpdnsBackground {
     ) {
       console.warn('no settings in local store');
       this.submitInProgress = false;
-      chrome.storage.local.get(SETTINGS_KEY, this.ingestError.bind(this));
+      this.storage.get(SETTINGS_KEY, this.ingestError.bind(this));
       return;
     }
     let apiKey = result.settings ? result.settings.apiKey : '';
     if (apiKey === undefined || apiKey == '') {
       console.error('failed to get API key from local storage');
       this.submitInProgress = false;
-      chrome.storage.local.get(SETTINGS_KEY, this.ingestError.bind(this));
+      this.storage.get(SETTINGS_KEY, this.ingestError.bind(this));
       return;
     }
 
@@ -133,19 +141,19 @@ class PpdnsBackground {
       .then((response) => response.json())
       .then((data) => {
         if (data['status'] == 'OK') {
-          chrome.storage.local.get(
+          this.storage.get(
             SETTINGS_KEY,
             this.incrementResolutionCount.bind(this)
           );
         } else {
           // key is valid, but likely lacks requried features
-          chrome.storage.local.get(SETTINGS_KEY, this.ingestError.bind(this));
+          this.storage.get(SETTINGS_KEY, this.ingestError.bind(this));
           console.error('Recieved unexpected response:', data);
         }
       })
       .catch((error) => {
         console.error('Error making request:', error);
-        chrome.storage.local.get(SETTINGS_KEY, this.ingestError.bind(this));
+        this.storage.get(SETTINGS_KEY, this.ingestError.bind(this));
       })
       .finally(() => {
         this.submitInProgress = false;
@@ -153,16 +161,16 @@ class PpdnsBackground {
   }
 
   async ingestError(result) {
-    await updateStorageField(chrome.storage.local, SETTINGS_KEY, 'ingestSuccess', 'false');
+    await updateStorageField(this.storage, SETTINGS_KEY, 'ingestSuccess', 'false');
 
-    const snoozedUntil = (await chrome.storage.local.get(SETTINGS_KEY))[SETTINGS_KEY].snoozedUntil;
+    const snoozedUntil = (await this.storage.get(SETTINGS_KEY))[SETTINGS_KEY].snoozedUntil;
     if (Number(snoozedUntil) >= Date.now()){
       // Snoozed.
       console.info('Notification: ingestError [snoozed until %s]', snoozedUntil);
       return
     }
 
-    chrome.notifications.create('ingestError', {
+    let notificationOptions = {
       type: 'basic',
       iconUrl: 'icon-34.png',
       title: 'Error submitting data',
@@ -174,31 +182,40 @@ class PpdnsBackground {
         { title: 'Snooze until tomorrow' },
         { title: 'Dismiss' },
       ],
-    }, function callback(notificationId) {
+    }
+    if (isFirefox){
+      delete notificationOptions.silent;
+      delete notificationOptions.buttons;
+    }
+
+    chrome.notifications.create('ingestError', notificationOptions, function callback(notificationId) {
       console.info('Notification: ingestError');
       // nothing necessary here, but required before Chrome 42
-    });
-
-    chrome.notifications.onButtonClicked.addListener(async (notificationId, buttonIndex) => {
-      console.debug('Button clicked: [%s] %s', notificationId, buttonIndex);
-      if (notificationId != 'ingestError' || buttonIndex != 1){
-        console.debug('No action for button %1 click on notification %s', buttonIndex, notificationId);
-        return
-      }
-
-      let currentSnoozedUntil = (await chrome.storage.local.get(SETTINGS_KEY))[SETTINGS_KEY].snoozedUntil;
-      console.debug('Current "snoozedUntil": %s', currentSnoozedUntil);
-
-      let snoozedUntil = (Date.now() + 86400000).toString(); // now + 1 day
-      await updateStorageField(chrome.storage.local, SETTINGS_KEY, 'snoozedUntil', snoozedUntil)
-
-      console.debug('Snoozed until %s', (await chrome.storage.local.get(SETTINGS_KEY))[SETTINGS_KEY].snoozedUntil);
     });
 
     chrome.notifications.onClicked.addListener(async (notificationId) => {
       console.debug('Notification clicked: %s', notificationId);
       // TODO: Open some detail page onClicked of notification
     });
+
+    // Firefox accepts no buttons on notifications. Too bad for it.
+    if (!isFirefox){
+      chrome.notifications.onButtonClicked.addListener(async (notificationId, buttonIndex) => {
+        console.debug('Button clicked: [%s] %s', notificationId, buttonIndex);
+        if (notificationId != 'ingestError' || buttonIndex != 0){
+          console.debug('No action for button %s click on notification %s', buttonIndex, notificationId);
+          return
+        }
+
+        let currentSnoozedUntil = (await this.storage.get(SETTINGS_KEY))[SETTINGS_KEY].snoozedUntil;
+        console.debug('Current "snoozedUntil": %s', currentSnoozedUntil);
+
+        let snoozedUntil = (Date.now() + 86400000).toString(); // now + 1 day
+        await updateStorageField(this.storage, SETTINGS_KEY, 'snoozedUntil', snoozedUntil)
+
+        console.debug('Snoozed until %s', (await this.storage.get(SETTINGS_KEY))[SETTINGS_KEY].snoozedUntil);
+      });
+    }
   }
 
   incrementResolutionCount(result) {
@@ -211,8 +228,8 @@ class PpdnsBackground {
       count += this.ppdnsBatchSize;
     }
 
-    updateStorageField(chrome.storage.local, SETTINGS_KEY, ingestSuccess, 'true');
-    updateStorageField(chrome.storage.local, SETTINGS_KEY, resolutionsSubmittedCount, count.toString());
+    updateStorageField(this.storage, SETTINGS_KEY, ingestSuccess, 'true');
+    updateStorageField(this.storage, SETTINGS_KEY, resolutionsSubmittedCount, count.toString());
   }
 }
 
