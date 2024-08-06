@@ -19,7 +19,7 @@ class PpdnsBackground {
     this.userAgent = navigator.userAgent;
     this.getVersion().finally(() => {
       console.info('Extension version detected: ' + this.version);
-      this.userAgent = `PolyswarmExtension/${this.version} ${navigator.userAgent}`
+      this.userAgent = `${navigator.userAgent} PolyswarmExtension/${this.version}`
       console.debug('Reporting the User-Agent: ' + this.userAgent);
     });
 
@@ -137,7 +137,7 @@ class PpdnsBackground {
       'Content-Type': 'application/json',
     };
     // todo wanted to use axios, but it needs fetch adapter
-    fetch(baseUrl + '/v3/telemetry', {
+    fetch(baseUrl + `/v3/telemetry?sender_version=${this.version}`, {
       method: 'POST',
       headers: headers,
       body: JSON.stringify(data),
