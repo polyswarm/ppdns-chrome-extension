@@ -16,7 +16,7 @@ class PpdnsBackground {
     this.submitInProgress = false;
     this.debouncedSubmitPpdnsBatch = debounce(this.submitPpdnsBatch, 500);
     this.version = null;
-    this.userAgent = navigator.userAgent
+    this.userAgent = navigator.userAgent;
     this.getVersion().finally(() => {
       console.info('Extension version detected: ' + this.version);
       this.userAgent = `PolyswarmExtension/${this.version} ${navigator.userAgent}`
