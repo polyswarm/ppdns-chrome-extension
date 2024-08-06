@@ -16,8 +16,11 @@ class PpdnsBackground {
     this.submitInProgress = false;
     this.debouncedSubmitPpdnsBatch = debounce(this.submitPpdnsBatch, 500);
     this.version = null;
+    this.userAgent = navigator.userAgent
     this.getVersion().finally(() => {
       console.info('Extension version detected: ' + this.version);
+      this.userAgent = `PolyswarmExtension/${this.version} ${navigator.userAgent}`
+      console.debug('Reporting the User-Agent: ' + this.userAgent);
     });
 
     this.initStorage();
@@ -130,6 +133,7 @@ class PpdnsBackground {
     let headers = {
       // todo grab from settings!
       Authorization: apiKey,
+      'User-Agent': this.userAgent,
       'Content-Type': 'application/json',
     };
     // todo wanted to use axios, but it needs fetch adapter
