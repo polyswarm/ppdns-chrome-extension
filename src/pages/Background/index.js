@@ -16,8 +16,11 @@ class PpdnsBackground {
     this.submitInProgress = false;
     this.debouncedSubmitPpdnsBatch = debounce(this.submitPpdnsBatch, 500);
     this.version = null;
+    this.userAgent = navigator.userAgent;
     this.getVersion().finally(() => {
       console.info('Extension version detected: ' + this.version);
+      this.userAgent = `${navigator.userAgent} PolyswarmExtension/${this.version}`
+      console.debug('Reporting the User-Agent: ' + this.userAgent);
     });
 
     this.initStorage();
@@ -130,10 +133,11 @@ class PpdnsBackground {
     let headers = {
       // todo grab from settings!
       Authorization: apiKey,
+      'User-Agent': this.userAgent,
       'Content-Type': 'application/json',
     };
     // todo wanted to use axios, but it needs fetch adapter
-    fetch(baseUrl + '/v3/telemetry', {
+    fetch(baseUrl + `/v3/telemetry?sender_version=${this.version}`, {
       method: 'POST',
       headers: headers,
       body: JSON.stringify(data),
@@ -193,32 +197,40 @@ class PpdnsBackground {
       // nothing necessary here, but required before Chrome 42
     });
 
-    if (!chrome.notifications.onClicked.hasListeners()){
-      chrome.notifications.onClicked.addListener(async (notificationId) => {
-        console.debug('Notification clicked: %s', notificationId);
-        await chrome.tabs.create({ url: 'https://polyswarm.network/account/api-keys' }).then(
-          tab => { console.info('Tab opened in Polyswarm website: %s', tab); }
-        );
-      });
+    try {
+      if (!chrome.notifications.onClicked.hasListeners()){
+        chrome.notifications.onClicked.addListener(async (notificationId) => {
+          console.debug('Notification clicked: %s', notificationId);
+          await chrome.tabs.create({ url: 'https://polyswarm.network/account/api-keys' }).then(
+            tab => { console.info('Tab opened in Polyswarm website: %s', tab); }
+          );
+        });
+      }
+    }catch {
+      console.warn('Could not set onClick handlers');
     }
 
     // Firefox accepts no buttons on notifications. Too bad for it.
-    if (!isFirefox && !chrome.notifications.onButtonClicked.hasListeners()){
-      chrome.notifications.onButtonClicked.addListener(async (notificationId, buttonIndex) => {
-        console.debug('Button clicked: [%s] %s', notificationId, buttonIndex);
-        if (notificationId != 'ingestError' || buttonIndex != 0){
-          console.debug('No action for button %s click on notification %s', buttonIndex, notificationId);
-          return
-        }
+    try{
+      if (!isFirefox && !chrome.notifications.onButtonClicked.hasListeners()){
+        chrome.notifications.onButtonClicked.addListener(async (notificationId, buttonIndex) => {
+          console.debug('Button clicked: [%s] %s', notificationId, buttonIndex);
+          if (notificationId != 'ingestError' || buttonIndex != 0){
+            console.debug('No action for button %s click on notification %s', buttonIndex, notificationId);
+            return
+          }
 
-        let currentSnoozedUntil = (await this.storage.get(SETTINGS_KEY))[SETTINGS_KEY].snoozedUntil;
-        console.debug('Current "snoozedUntil": %s', currentSnoozedUntil);
+          let currentSnoozedUntil = (await this.storage.get(SETTINGS_KEY))[SETTINGS_KEY].snoozedUntil;
+          console.debug('Current "snoozedUntil": %s', currentSnoozedUntil);
 
-        let snoozedUntil = (Date.now() + 86400000).toString(); // now + 1 day
-        await updateStorageField(this.storage, SETTINGS_KEY, 'snoozedUntil', snoozedUntil)
+          let snoozedUntil = (Date.now() + 86400000).toString(); // now + 1 day
+          await updateStorageField(this.storage, SETTINGS_KEY, 'snoozedUntil', snoozedUntil)
 
-        console.debug('Snoozed until %s [now + 1day]', (await this.storage.get(SETTINGS_KEY))[SETTINGS_KEY].snoozedUntil);
-      });
+          console.debug('Snoozed until %s [now + 1day]', (await this.storage.get(SETTINGS_KEY))[SETTINGS_KEY].snoozedUntil);
+        });
+      }
+    }catch{
+      console.warn('Could not set onButtonClicked handlers');
     }
 
     // Snooze notifications for 5 min at least, even with no clicks.
