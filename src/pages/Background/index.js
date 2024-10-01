@@ -142,9 +142,12 @@ class PpdnsBackground {
       headers: headers,
       body: JSON.stringify(data),
     })
-      .then((response) => response.json())
-      .then((data) => {
+      .then(async (response) => {
+        let data = await response.json();
         if (data['status'] == 'OK') {
+          let now = Date.now();
+          await updateStorageField(this.storage, SETTINGS_KEY, 'ingestSuccessDate', now.toString());
+          await updateStorageField(this.storage, SETTINGS_KEY, 'apiKeyCheckedDate', now.toString());
           this.storage.get(
             SETTINGS_KEY,
             this.incrementResolutionCount.bind(this)

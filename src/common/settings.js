@@ -2,7 +2,9 @@ import { createChromeStorageStateHookLocal } from 'use-chrome-storage';
 export const SETTINGS_KEY = 'settings';
 export const INITIAL_VALUE = {
   apiKey: '',
+  apiKeyCheckedDate: '0',
   ingestSuccess: '',
+  ingestSuccessDate: '0',
   resolutionsSubmittedCount: '0',
   baseUrl: process.env.POLYSWARM_API_URL,
   snoozedUntil: '0',
