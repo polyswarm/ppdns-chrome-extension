@@ -24,6 +24,8 @@ class PpdnsBackground {
     });
 
     this.initStorage();
+    this.initNotificationClicks();
+    this.initNotificationButtons();
   }
 
   async initStorage() {
@@ -213,21 +215,27 @@ class PpdnsBackground {
       console.warn('Could not set onClick handlers');
     }
 
+  async initNotificationButtons() {
     // Firefox accepts no buttons on notifications. Too bad for it.
     try{
       if (!isFirefox && !chrome.notifications.onButtonClicked.hasListeners()){
         chrome.notifications.onButtonClicked.addListener(async (notificationId, buttonIndex) => {
           console.debug('Button clicked: [%s] %s', notificationId, buttonIndex);
-          if (notificationId != 'ingestError' || buttonIndex != 0){
+          if (buttonIndex != 0 || (
+              notificationId != 'ingestError'
+              && notificationId != 'connectionError'
+              && notificationId != 'serverError'
+              && notificationId != 'apikeyError')) {
             console.debug('No action for button %s click on notification %s', buttonIndex, notificationId);
             return
           }
+          // The button clicked is "Snooze until tomorrow". Lets handle it.
 
           let currentSnoozedUntil = (await this.storage.get(SETTINGS_KEY))[SETTINGS_KEY].snoozedUntil;
           console.debug('Current "snoozedUntil": %s', currentSnoozedUntil);
 
           let snoozedUntil = (Date.now() + 86400000).toString(); // now + 1 day
-          await updateStorageField(this.storage, SETTINGS_KEY, 'snoozedUntil', snoozedUntil)
+          await updateStorageField(this.storage, SETTINGS_KEY, 'snoozedUntil', snoozedUntil);
 
           console.debug('Snoozed until %s [now + 1day]', (await this.storage.get(SETTINGS_KEY))[SETTINGS_KEY].snoozedUntil);
         });
@@ -235,12 +243,24 @@ class PpdnsBackground {
     }catch{
       console.warn('Could not set onButtonClicked handlers');
     }
+  }
 
-    // Snooze notifications for 5 min at least, even with no clicks.
-    console.debug('Current "snoozedUntil": %s', snoozedUntil);
-    snoozedUntil = (Date.now() + 300*1000).toString(); // now + 5 minutes
-    await updateStorageField(this.storage, SETTINGS_KEY, 'snoozedUntil', snoozedUntil)
-    console.debug('Snoozed until %s [now + 5min]', (await this.storage.get(SETTINGS_KEY))[SETTINGS_KEY].snoozedUntil);
+  initNotificationClicks() {
+    try {
+      if (!chrome.notifications.onClicked.hasListeners()){
+        chrome.notifications.onClicked.addListener(async (notificationId) => {
+          console.debug('Notification clicked: %s', notificationId);
+          if (notificationId == 'apikeyError'){
+            let link =  'https://polyswarm.network/account/api-keys';
+            await chrome.tabs.create({ url: link }).then(
+              tab => { console.info('Tab opened in Polyswarm website: %s', tab); }
+            );
+          }
+        });
+      }
+    }catch {
+      console.warn('Could not set onClick handlers');
+    }
   }
 
   incrementResolutionCount(result) {
