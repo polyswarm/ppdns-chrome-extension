@@ -151,11 +151,11 @@ class PpdnsBackground {
 
         if (statuscode / 400 | 0 == 1){  // 4XX
           // API Key errors are answered as 400, not 40{1,3}
-          this.storage.get(SETTINGS_KEY, this.ingestError.bind(this));
+          this.storage.get(SETTINGS_KEY, this.apikeyError.bind(this));
           console.error('Error 4XX making the request:', await response.json());
         } else if (statuscode / 500 | 0 == 1){
           // Server in maintenance or maybe overloaded?
-          this.storage.get(SETTINGS_KEY, this.ingestError.bind(this));
+          this.storage.get(SETTINGS_KEY, this.serverError.bind(this));
           console.error('Error 5XX making the request:', await response.json());
         } else {
           // Is possibly safe to decode the JSON from the response.
@@ -177,11 +177,119 @@ class PpdnsBackground {
       })
       .catch((error) => {
         console.error('Error making request connection:', error);
-        this.storage.get(SETTINGS_KEY, this.ingestError.bind(this));
+        this.storage.get(SETTINGS_KEY, this.connectionError.bind(this));
       })
       .finally(() => {
         this.submitInProgress = false;
       });
+  }
+
+  async apikeyError(result){
+    let errorname = 'apikeyError';
+    await updateStorageField(this.storage, SETTINGS_KEY, 'ingestSuccess', 'false');
+
+    let snoozedUntil = (await this.storage.get(SETTINGS_KEY))[SETTINGS_KEY].snoozedUntil;
+    if (Number(snoozedUntil) >= Date.now()){
+      // Snoozed.
+      console.info('Notification: %s [snoozed until %s]', errorname, snoozedUntil);
+      return
+    }
+
+    let message = ('The data will be held waiting the API Key to be checked from your account settings.'
+    + '\n\xa0\nClick here to open polyswarm.network/account/api-keys in a new tab');
+
+    let notificationOptions = {
+      type: 'basic',
+      iconUrl: 'icon-34.png',
+      title: 'Check your API Key',
+      message: message,
+      contextMessage: 'PolySwarm Extension',
+      priority: 2,
+      silent: true,
+      buttons: [
+        { title: 'Snooze until tomorrow' },
+        { title: 'Dismiss' },
+      ],
+    }
+    if (isFirefox){
+      delete notificationOptions.silent;
+      delete notificationOptions.buttons;
+    }
+
+    chrome.notifications.create(errorname, notificationOptions, function callback(notificationId) {
+      console.info('Notification: %s', errorname);
+      // nothing necessary here, but required before Chrome 42
+    });
+  }
+
+  async serverError(result){
+    let errorname = 'serverError';
+    await updateStorageField(this.storage, SETTINGS_KEY, 'ingestSuccess', 'false');
+
+    let snoozedUntil = (await this.storage.get(SETTINGS_KEY))[SETTINGS_KEY].snoozedUntil;
+    if (Number(snoozedUntil) >= Date.now()){
+      // Snoozed.
+      console.info('Notification: %s [snoozed until %s]', errorname, snoozedUntil);
+      return
+    }
+
+    let notificationOptions = {
+      type: 'basic',
+      iconUrl: 'icon-34.png',
+      title: 'We had a problem (not in Houston)',
+      message: 'The data will be held and retransmitted as soon as we fix the Polyswarm side.',
+      contextMessage: 'PolySwarm Extension',
+      priority: 2,
+      silent: true,
+      buttons: [
+        { title: 'Snooze until tomorrow' },
+        { title: 'Dismiss' },
+      ],
+    }
+    if (isFirefox){
+      delete notificationOptions.silent;
+      delete notificationOptions.buttons;
+    }
+
+    chrome.notifications.create(errorname, notificationOptions, function callback(notificationId) {
+      console.info('Notification: %s', errorname);
+      // nothing necessary here, but required before Chrome 42
+    });
+  }
+
+  async connectionError(result){
+    let errorname = 'connectionError';
+    await updateStorageField(this.storage, SETTINGS_KEY, 'ingestSuccess', 'false');
+
+    let snoozedUntil = (await this.storage.get(SETTINGS_KEY))[SETTINGS_KEY].snoozedUntil;
+    if (Number(snoozedUntil) >= Date.now()){
+      // Snoozed.
+      console.info('Notification: %s [snoozed until %s]', errorname, snoozedUntil);
+      return
+    }
+
+    let notificationOptions = {
+      type: 'basic',
+      iconUrl: 'icon-34.png',
+      title: 'Connection error submitting data',
+      message: 'The data will be held and retransmitted as soon as a conection became possible',
+      contextMessage: 'PolySwarm Extension',
+      priority: 2,
+      silent: true,
+      buttons: [
+        { title: 'Snooze until tomorrow' },
+        { title: 'Dismiss' },
+      ],
+    }
+    if (isFirefox){
+      delete notificationOptions.silent;
+      delete notificationOptions.buttons;
+    }
+
+    chrome.notifications.create(errorname, notificationOptions, function callback(notificationId) {
+      console.info('Notification: %s', errorname);
+      // nothing necessary here, but required before Chrome 42
+    });
   }
 
   async ingestError(result) {
