@@ -202,18 +202,16 @@ class PpdnsBackground {
       // nothing necessary here, but required before Chrome 42
     });
 
-    try {
-      if (!chrome.notifications.onClicked.hasListeners()){
-        chrome.notifications.onClicked.addListener(async (notificationId) => {
-          console.debug('Notification clicked: %s', notificationId);
-          await chrome.tabs.create({ url: 'https://polyswarm.network/account/api-keys' }).then(
-            tab => { console.info('Tab opened in Polyswarm website: %s', tab); }
-          );
-        });
-      }
-    }catch {
-      console.warn('Could not set onClick handlers');
-    }
+    await this.snoozeNotifications(snoozedUntil);
+  }
+
+  async snoozeNotifications(snoozedUntil) {
+    // Snooze notifications for 5 min at least, even with no clicks.
+    console.debug('Current "snoozedUntil": %s', snoozedUntil);
+    snoozedUntil = (Date.now() + 300*1000).toString(); // now + 5 minutes
+    await updateStorageField(this.storage, SETTINGS_KEY, 'snoozedUntil', snoozedUntil);
+    console.debug('Snoozed until %s [now + 5min]', (await this.storage.get(SETTINGS_KEY))[SETTINGS_KEY].snoozedUntil);
+  }
 
   async initNotificationButtons() {
     // Firefox accepts no buttons on notifications. Too bad for it.
