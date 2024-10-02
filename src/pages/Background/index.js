@@ -220,6 +220,8 @@ class PpdnsBackground {
       console.info('Notification: %s', errorname);
       // nothing necessary here, but required before Chrome 42
     });
+
+    await this.snoozeNotifications(snoozedUntil);
   }
 
   async serverError(result){
@@ -255,6 +257,8 @@ class PpdnsBackground {
       console.info('Notification: %s', errorname);
       // nothing necessary here, but required before Chrome 42
     });
+
+    await this.snoozeNotifications(snoozedUntil);
   }
 
   async connectionError(result){
@@ -290,6 +294,8 @@ class PpdnsBackground {
       console.info('Notification: %s', errorname);
       // nothing necessary here, but required before Chrome 42
     });
+
+    await this.snoozeNotifications(snoozedUntil);
   }
 
   async ingestError(result) {
