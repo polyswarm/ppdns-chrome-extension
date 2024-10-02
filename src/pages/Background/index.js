@@ -148,19 +148,31 @@ class PpdnsBackground {
       .then(async (response) => {
         _resp = response;  // Just to ease the debugging.
         let statuscode = response.status;
-        let data = await response.json();
-        if (data['status'] == 'OK') {
-          let now = Date.now();
-          await updateStorageField(this.storage, SETTINGS_KEY, 'ingestSuccessDate', now.toString());
-          await updateStorageField(this.storage, SETTINGS_KEY, 'apiKeyCheckedDate', now.toString());
-          this.storage.get(
-            SETTINGS_KEY,
-            this.incrementResolutionCount.bind(this)
-          );
-        } else {
-          // key is valid, but likely lacks requried features
+
+        if (statuscode / 400 | 0 == 1){  // 4XX
+          // API Key errors are answered as 400, not 40{1,3}
           this.storage.get(SETTINGS_KEY, this.ingestError.bind(this));
-          console.error('Recieved unexpected response:', data);
+          console.error('Error 4XX making the request:', await response.json());
+        } else if (statuscode / 500 | 0 == 1){
+          // Server in maintenance or maybe overloaded?
+          this.storage.get(SETTINGS_KEY, this.ingestError.bind(this));
+          console.error('Error 5XX making the request:', await response.json());
+        } else {
+          // Is possibly safe to decode the JSON from the response.
+          let data = await response.json();
+          if (statuscode / 200 | 0 == 1 && data['status'] == 'OK') {
+            let now = Date.now();
+            await updateStorageField(this.storage, SETTINGS_KEY, 'ingestSuccessDate', now.toString());
+            await updateStorageField(this.storage, SETTINGS_KEY, 'apiKeyCheckedDate', now.toString());
+            this.storage.get(
+              SETTINGS_KEY,
+              this.incrementResolutionCount.bind(this)
+            );
+          } else {
+            // key is valid, but likely lacks requried features
+            console.error('Recieved unexpected response:', data);
+            this.storage.get(SETTINGS_KEY, this.ingestError.bind(this));
+          }
         }
       })
       .catch((error) => {
