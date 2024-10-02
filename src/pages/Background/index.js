@@ -149,18 +149,18 @@ class PpdnsBackground {
         _resp = response;  // Just to ease the debugging.
         let statuscode = response.status;
 
-        if (statuscode / 400 | 0 == 1){  // 4XX
+        if ((statuscode / 100 | 0) == 4){  // 4XX
           // API Key errors are answered as 400, not 40{1,3}
           this.storage.get(SETTINGS_KEY, this.apikeyError.bind(this));
           console.error('Error 4XX making the request:', await response.json());
-        } else if (statuscode / 500 | 0 == 1){
+        } else if ((statuscode / 100 | 0) == 5){  // 5XX
           // Server in maintenance or maybe overloaded?
           this.storage.get(SETTINGS_KEY, this.serverError.bind(this));
-          console.error('Error 5XX making the request:', await response.json());
+          console.error('Error 5XX making the request:', response.status);
         } else {
           // Is possibly safe to decode the JSON from the response.
           let data = await response.json();
-          if (statuscode / 200 | 0 == 1 && data['status'] == 'OK') {
+          if ((statuscode / 100 | 0) == 2 && data['status'] == 'OK') {
             let now = Date.now();
             await updateStorageField(this.storage, SETTINGS_KEY, 'ingestSuccessDate', now.toString());
             await updateStorageField(this.storage, SETTINGS_KEY, 'apiKeyCheckedDate', now.toString());
