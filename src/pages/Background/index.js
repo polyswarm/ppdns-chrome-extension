@@ -170,7 +170,7 @@ class PpdnsBackground {
             );
           } else {
             // key is valid, but likely lacks requried features
-            console.error('Recieved unexpected response:', data);
+            console.error('Received unexpected response:', data);
             this.storage.get(SETTINGS_KEY, this.ingestError.bind(this));
           }
         }
