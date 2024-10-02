@@ -139,12 +139,15 @@ class PpdnsBackground {
       'Content-Type': 'application/json',
     };
     // todo wanted to use axios, but it needs fetch adapter
+    let _resp = null;
     fetch(baseUrl + `/v3/telemetry?sender_version=${this.version}`, {
       method: 'POST',
       headers: headers,
       body: JSON.stringify(data),
     })
       .then(async (response) => {
+        _resp = response;  // Just to ease the debugging.
+        let statuscode = response.status;
         let data = await response.json();
         if (data['status'] == 'OK') {
           let now = Date.now();
