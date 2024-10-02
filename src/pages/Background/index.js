@@ -235,11 +235,13 @@ class PpdnsBackground {
       return
     }
 
+    let lastSuccess = await this.getLastSuccessString();
     let notificationOptions = {
       type: 'basic',
       iconUrl: 'icon-34.png',
       title: 'We had a problem (not in Houston)',
-      message: 'The data will be held and retransmitted as soon as we fix the Polyswarm side.',
+      message: ('The data will be held and retransmitted as soon as we fix the Polyswarm side.'
+                + '\nLast successful transmission was ' + lastSuccess),
       contextMessage: 'PolySwarm Extension',
       priority: 2,
       silent: true,
@@ -272,11 +274,13 @@ class PpdnsBackground {
       return
     }
 
+    let lastSuccess = await this.getLastSuccessString();
     let notificationOptions = {
       type: 'basic',
       iconUrl: 'icon-34.png',
       title: 'Connection error submitting data',
-      message: 'The data will be held and retransmitted as soon as a conection became possible',
+      message: ('The data will be held and retransmitted as soon as a conection became possible.'
+                + '\nLast successful transmission was ' + lastSuccess),
       contextMessage: 'PolySwarm Extension',
       priority: 2,
       silent: true,
@@ -309,13 +313,11 @@ class PpdnsBackground {
     }
 
     let message = '';
-    // '0'+ to guard against empty strings
-    let apiKeyCheckedDate = '0'+(await this.storage.get(SETTINGS_KEY))[SETTINGS_KEY].apiKeyCheckedDate;
-    if (Number(apiKeyCheckedDate) >= Date.now() - 86400000){  // yesterday
+    let lastSuccess = await this.getLastSuccessString();
+    if (lastSuccess == 'today'){
       message = 'Could not send the new data right now, but already sent something today.\nWill keep the data and try again soon.';
     }else{
-      let lastDate = new Date(Number(apiKeyCheckedDate));
-      message = 'Last successful submission was in ' + lastDate.toLocaleDateString() + '.\nWill keep the data and try again soon.';
+      message = 'Last successful submission was ' + lastSuccess + '.\nWill keep the data and try again soon.';
     }
 
     let notificationOptions = {
@@ -342,6 +344,16 @@ class PpdnsBackground {
     });
 
     await this.snoozeNotifications(snoozedUntil);
+  }
+
+  async getLastSuccessString() {
+    let apiKeyCheckedDate = '0'+(await this.storage.get(SETTINGS_KEY))[SETTINGS_KEY].apiKeyCheckedDate;
+    if (Number(apiKeyCheckedDate) >= Date.now() - 86400000){  // yesterday
+      return 'today'
+    }else{
+      let lastDate = new Date(Number(apiKeyCheckedDate));
+      return 'by ' + lastDate.toLocaleDateString()
+    }
   }
 
   async snoozeNotifications(snoozedUntil) {
