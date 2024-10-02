@@ -164,7 +164,7 @@ class PpdnsBackground {
         }
       })
       .catch((error) => {
-        console.error('Error making request:', error);
+        console.error('Error making request connection:', error);
         this.storage.get(SETTINGS_KEY, this.ingestError.bind(this));
       })
       .finally(() => {
