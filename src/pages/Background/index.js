@@ -182,11 +182,21 @@ class PpdnsBackground {
       return
     }
 
+    let message = '';
+    // '0'+ to guard against empty strings
+    let apiKeyCheckedDate = '0'+(await this.storage.get(SETTINGS_KEY))[SETTINGS_KEY].apiKeyCheckedDate;
+    if (Number(apiKeyCheckedDate) >= Date.now() - 86400000){  // yesterday
+      message = 'Could not send the new data right now, but already sent something today.\nWill keep the data and try again soon.';
+    }else{
+      let lastDate = new Date(Number(apiKeyCheckedDate));
+      message = 'Last successful submission was in ' + lastDate.toLocaleDateString() + '.\nWill keep the data and try again soon.';
+    }
+
     let notificationOptions = {
       type: 'basic',
       iconUrl: 'icon-34.png',
       title: 'Error submitting data',
-      message: 'Check that you entered your API Key correctly from your account settings at polyswarm.network/account/api-keys\n\xa0\nClick here to open in a new tab',
+      message: message,
       contextMessage: 'PolySwarm Extension',
       priority: 2,
       silent: true,
