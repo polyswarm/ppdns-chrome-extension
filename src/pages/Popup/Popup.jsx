@@ -92,7 +92,7 @@ async function validateAPIKey(apiKey, settings) {
     return false;
   }
 
-  return await fetch(`${settings.baseUrl}/v2/instance`, {
+  return await fetch(`${settings.baseUrl}/v3/public/accounts/whois`, {
     headers: {
       Authorization: apiKey,
     },
