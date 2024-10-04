@@ -14,10 +14,12 @@ const Popup = () => {
       setValid(valid);
       settings.ingestSuccess = '';
       if (valid) {
+        let now = Date.now();
         return setSettings((prevState) => {
           return {
             ...prevState,
             apiKey: event.target.value,
+            apiKeyCheckedDate: now.toString(),
           };
         });
       }
@@ -97,11 +99,7 @@ async function validateAPIKey(apiKey, settings) {
       Authorization: apiKey,
     },
   })
-    .then(async (response) => {
-      let now = Date.now();
-      await updateStorageField(this.storage, SETTINGS_KEY, 'apiKeyCheckedDate', now.toString());
-      return response.ok
-    })
+    .then((response) => { return response.ok })
     .catch((error) => console.error('error', error));
 }
 
