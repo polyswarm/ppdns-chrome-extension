@@ -239,7 +239,7 @@ class PpdnsBackground {
     let notificationOptions = {
       type: 'basic',
       iconUrl: 'icon-34.png',
-      title: 'We had an issue submitting telemetry data.',
+      title: 'Could not submit the telemetry data.',
       message: ('The data will be saved and resubmitted as soon as it is possible.'
                 + '\nLast successful transmission was ' + lastSuccess),
       contextMessage: 'PolySwarm Extension',
@@ -278,7 +278,7 @@ class PpdnsBackground {
     let notificationOptions = {
       type: 'basic',
       iconUrl: 'icon-34.png',
-      title: 'There was an issue connecting to the internet.',
+      title: 'Could not connect to the internet.',
       message: ('The data will be saved and resubmitted once the connection is fixed .'
                 + '\nLast successful transmission was ' + lastSuccess),
       contextMessage: 'PolySwarm Extension',
