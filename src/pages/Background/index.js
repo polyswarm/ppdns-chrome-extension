@@ -195,7 +195,7 @@ class PpdnsBackground {
       return
     }
 
-    let message = ('The data will be held waiting the API Key to be checked from your account settings.'
+    let message = ('Your telemetry data will be saved locally until you enter an API Key from your account settings.'
     + '\n\xa0\nClick here to open polyswarm.network/account/api-keys in a new tab');
 
     let notificationOptions = {
@@ -239,8 +239,8 @@ class PpdnsBackground {
     let notificationOptions = {
       type: 'basic',
       iconUrl: 'icon-34.png',
-      title: 'We had a problem (not in Houston)',
-      message: ('The data will be held and retransmitted as soon as we fix the Polyswarm side.'
+      title: 'We had an issue submitting telemetry data.',
+      message: ('The data will be saved and resubmitted as soon as it is possible.'
                 + '\nLast successful transmission was ' + lastSuccess),
       contextMessage: 'PolySwarm Extension',
       priority: 2,
@@ -278,8 +278,8 @@ class PpdnsBackground {
     let notificationOptions = {
       type: 'basic',
       iconUrl: 'icon-34.png',
-      title: 'Connection error submitting data',
-      message: ('The data will be held and retransmitted as soon as a conection became possible.'
+      title: 'There was an issue connecting to the internet.',
+      message: ('The data will be saved and resubmitted once the connection is fixed .'
                 + '\nLast successful transmission was ' + lastSuccess),
       contextMessage: 'PolySwarm Extension',
       priority: 2,
@@ -315,9 +315,9 @@ class PpdnsBackground {
     let message = '';
     let lastSuccess = await this.getLastSuccessString();
     if (lastSuccess == 'today'){
-      message = 'Could not send the new data right now, but already sent something today.\nWill keep the data and try again soon.';
+      message = 'The data could not be sent right now, but some data has been sent today already.\nIt will be saved and resubmitted again soon.';
     }else{
-      message = 'Last successful submission was ' + lastSuccess + '.\nWill keep the data and try again soon.';
+      message = 'There is an issue submitting telemetry data. Last successful submission was ' + lastSuccess + '.\nOnce the issue is fixed the data will be resubmitted.';
     }
 
     let notificationOptions = {
@@ -352,7 +352,7 @@ class PpdnsBackground {
       return 'today'
     }else{
       let lastDate = new Date(Number(apiKeyCheckedDate));
-      return 'by ' + lastDate.toLocaleDateString()
+      return 'on ' + lastDate.toLocaleDateString()
     }
   }
 
