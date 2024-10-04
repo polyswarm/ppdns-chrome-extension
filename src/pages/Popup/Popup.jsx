@@ -68,8 +68,14 @@ const Popup = () => {
           {settings.resolutionsSubmittedCount && (
             <div className="resolutions">
               {settings.resolutionsSubmittedCount} total resolutions submitted
+              {settings.apiKeyCheckedDate && (
+                <div className="lastSubmission">
+                  (last submission was {getLastSuccessString(settings)})
+                </div>
+              )}
             </div>
           )}
+
           {settings.apiKey &&
             settings.apiKey.length &&
             settings.ingestSuccess == 'false' && (
@@ -101,6 +107,16 @@ async function validateAPIKey(apiKey, settings) {
   })
     .then((response) => { return response.ok })
     .catch((error) => console.error('error', error));
+}
+
+function getLastSuccessString(settings) {
+  let apiKeyCheckedDate = '0'+ settings.apiKeyCheckedDate;
+  if (Number(apiKeyCheckedDate) >= Date.now() - 86400000){  // yesterday
+    return 'today'
+  }else{
+    let lastDate = new Date(Number(apiKeyCheckedDate));
+    return 'on ' + lastDate.toLocaleDateString()
+  }
 }
 
 export default Popup;
