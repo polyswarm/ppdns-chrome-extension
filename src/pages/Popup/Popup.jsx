@@ -100,7 +100,7 @@ async function validateAPIKey(apiKey, settings) {
     .then(async (response) => {
       let now = Date.now();
       await updateStorageField(this.storage, SETTINGS_KEY, 'apiKeyCheckedDate', now.toString());
-      response.ok
+      return response.ok
     })
     .catch((error) => console.error('error', error));
 }
