@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import logo from '../../assets/img/logo.svg';
 import './Popup.css';
-import { useSettingsStore } from '../../common/settings';
+import { SETTINGS_KEY, useSettingsStore, updateStorageField } from '../../common/settings';
 
 const Popup = () => {
   const [settings, setSettings] = useSettingsStore();
@@ -97,7 +97,11 @@ async function validateAPIKey(apiKey, settings) {
       Authorization: apiKey,
     },
   })
-    .then((response) => response.ok)
+    .then(async (response) => {
+      let now = Date.now();
+      await updateStorageField(this.storage, SETTINGS_KEY, 'apiKeyCheckedDate', now.toString());
+      response.ok
+    })
     .catch((error) => console.error('error', error));
 }
 
