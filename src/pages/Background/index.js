@@ -24,6 +24,8 @@ class PpdnsBackground {
     });
 
     this.initStorage();
+    this.initNotificationClicks();
+    this.initNotificationButtons();
   }
 
   async initStorage() {
@@ -137,31 +139,167 @@ class PpdnsBackground {
       'Content-Type': 'application/json',
     };
     // todo wanted to use axios, but it needs fetch adapter
+    let _resp = null;
     fetch(baseUrl + `/v3/telemetry?sender_version=${this.version}`, {
       method: 'POST',
       headers: headers,
       body: JSON.stringify(data),
     })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data['status'] == 'OK') {
-          this.storage.get(
-            SETTINGS_KEY,
-            this.incrementResolutionCount.bind(this)
-          );
+      .then(async (response) => {
+        _resp = response;  // Just to ease the debugging.
+        let statuscode = response.status;
+
+        if ((statuscode / 100 | 0) == 4){  // 4XX
+          // API Key errors are answered as 400, not 40{1,3}
+          this.storage.get(SETTINGS_KEY, this.apikeyError.bind(this));
+          console.error('Error 4XX making the request:', await response.json());
+        } else if ((statuscode / 100 | 0) == 5){  // 5XX
+          // Server in maintenance or maybe overloaded?
+          this.storage.get(SETTINGS_KEY, this.serverError.bind(this));
+          console.error('Error 5XX making the request:', response.status);
         } else {
-          // key is valid, but likely lacks requried features
-          this.storage.get(SETTINGS_KEY, this.ingestError.bind(this));
-          console.error('Recieved unexpected response:', data);
+          // Is possibly safe to decode the JSON from the response.
+          let data = await response.json();
+          if ((statuscode / 100 | 0) == 2 && data['status'] == 'OK') {
+            let now = Date.now();
+            await updateStorageField(this.storage, SETTINGS_KEY, 'ingestSuccessDate', now.toString());
+            await updateStorageField(this.storage, SETTINGS_KEY, 'apiKeyCheckedDate', now.toString());
+            this.storage.get(
+              SETTINGS_KEY,
+              this.incrementResolutionCount.bind(this)
+            );
+          } else {
+            // key is valid, but likely lacks requried features
+            console.error('Received unexpected response:', data);
+            this.storage.get(SETTINGS_KEY, this.ingestError.bind(this));
+          }
         }
       })
       .catch((error) => {
-        console.error('Error making request:', error);
-        this.storage.get(SETTINGS_KEY, this.ingestError.bind(this));
+        console.error('Error making request connection:', error);
+        this.storage.get(SETTINGS_KEY, this.connectionError.bind(this));
       })
       .finally(() => {
         this.submitInProgress = false;
       });
+  }
+
+  async apikeyError(result){
+    let errorname = 'apikeyError';
+    await updateStorageField(this.storage, SETTINGS_KEY, 'ingestSuccess', 'false');
+
+    let snoozedUntil = (await this.storage.get(SETTINGS_KEY))[SETTINGS_KEY].snoozedUntil;
+    if (Number(snoozedUntil) >= Date.now()){
+      // Snoozed.
+      console.info('Notification: %s [snoozed until %s]', errorname, snoozedUntil);
+      return
+    }
+
+    let message = ('Your telemetry data will be saved locally until you enter an API Key from your account settings.'
+    + '\n\xa0\nClick here to open polyswarm.network/account/api-keys in a new tab');
+
+    let notificationOptions = {
+      type: 'basic',
+      iconUrl: 'icon-34.png',
+      title: 'Check your API Key',
+      message: message,
+      contextMessage: 'PolySwarm Extension',
+      priority: 2,
+      silent: true,
+      buttons: [
+        { title: 'Snooze until tomorrow' },
+        { title: 'Dismiss' },
+      ],
+    }
+    if (isFirefox){
+      delete notificationOptions.silent;
+      delete notificationOptions.buttons;
+    }
+
+    chrome.notifications.create(errorname, notificationOptions, function callback(notificationId) {
+      console.info('Notification: %s', errorname);
+      // nothing necessary here, but required before Chrome 42
+    });
+
+    await this.snoozeNotifications(snoozedUntil);
+  }
+
+  async serverError(result){
+    let errorname = 'serverError';
+    await updateStorageField(this.storage, SETTINGS_KEY, 'ingestSuccess', 'false');
+
+    let snoozedUntil = (await this.storage.get(SETTINGS_KEY))[SETTINGS_KEY].snoozedUntil;
+    if (Number(snoozedUntil) >= Date.now()){
+      // Snoozed.
+      console.info('Notification: %s [snoozed until %s]', errorname, snoozedUntil);
+      return
+    }
+
+    let lastSuccess = await this.getLastSuccessString();
+    let notificationOptions = {
+      type: 'basic',
+      iconUrl: 'icon-34.png',
+      title: 'Could not submit the telemetry data.',
+      message: ('The data will be saved and resubmitted as soon as it is possible.'
+                + '\nLast successful transmission was ' + lastSuccess),
+      contextMessage: 'PolySwarm Extension',
+      priority: 2,
+      silent: true,
+      buttons: [
+        { title: 'Snooze until tomorrow' },
+        { title: 'Dismiss' },
+      ],
+    }
+    if (isFirefox){
+      delete notificationOptions.silent;
+      delete notificationOptions.buttons;
+    }
+
+    chrome.notifications.create(errorname, notificationOptions, function callback(notificationId) {
+      console.info('Notification: %s', errorname);
+      // nothing necessary here, but required before Chrome 42
+    });
+
+    await this.snoozeNotifications(snoozedUntil);
+  }
+
+  async connectionError(result){
+    let errorname = 'connectionError';
+    await updateStorageField(this.storage, SETTINGS_KEY, 'ingestSuccess', 'false');
+
+    let snoozedUntil = (await this.storage.get(SETTINGS_KEY))[SETTINGS_KEY].snoozedUntil;
+    if (Number(snoozedUntil) >= Date.now()){
+      // Snoozed.
+      console.info('Notification: %s [snoozed until %s]', errorname, snoozedUntil);
+      return
+    }
+
+    let lastSuccess = await this.getLastSuccessString();
+    let notificationOptions = {
+      type: 'basic',
+      iconUrl: 'icon-34.png',
+      title: 'Could not connect to the internet.',
+      message: ('The data will be saved and resubmitted once the connection is fixed .'
+                + '\nLast successful transmission was ' + lastSuccess),
+      contextMessage: 'PolySwarm Extension',
+      priority: 2,
+      silent: true,
+      buttons: [
+        { title: 'Snooze until tomorrow' },
+        { title: 'Dismiss' },
+      ],
+    }
+    if (isFirefox){
+      delete notificationOptions.silent;
+      delete notificationOptions.buttons;
+    }
+
+    chrome.notifications.create(errorname, notificationOptions, function callback(notificationId) {
+      console.info('Notification: %s', errorname);
+      // nothing necessary here, but required before Chrome 42
+    });
+
+    await this.snoozeNotifications(snoozedUntil);
   }
 
   async ingestError(result) {
@@ -174,11 +312,19 @@ class PpdnsBackground {
       return
     }
 
+    let message = '';
+    let lastSuccess = await this.getLastSuccessString();
+    if (lastSuccess == 'today'){
+      message = 'The data could not be sent right now, but some data has been sent today already.\nIt will be saved and resubmitted again soon.';
+    }else{
+      message = 'There is an issue submitting telemetry data. Last successful submission was ' + lastSuccess + '.\nOnce the issue is fixed the data will be resubmitted.';
+    }
+
     let notificationOptions = {
       type: 'basic',
       iconUrl: 'icon-34.png',
       title: 'Error submitting data',
-      message: 'Check that you entered your API Key correctly from your account settings at polyswarm.network/account/api-keys\n\xa0\nClick here to open in a new tab',
+      message: message,
       contextMessage: 'PolySwarm Extension',
       priority: 2,
       silent: true,
@@ -197,34 +343,48 @@ class PpdnsBackground {
       // nothing necessary here, but required before Chrome 42
     });
 
-    try {
-      if (!chrome.notifications.onClicked.hasListeners()){
-        chrome.notifications.onClicked.addListener(async (notificationId) => {
-          console.debug('Notification clicked: %s', notificationId);
-          await chrome.tabs.create({ url: 'https://polyswarm.network/account/api-keys' }).then(
-            tab => { console.info('Tab opened in Polyswarm website: %s', tab); }
-          );
-        });
-      }
-    }catch {
-      console.warn('Could not set onClick handlers');
-    }
+    await this.snoozeNotifications(snoozedUntil);
+  }
 
+  async getLastSuccessString() {
+    let apiKeyCheckedDate = '0'+(await this.storage.get(SETTINGS_KEY))[SETTINGS_KEY].apiKeyCheckedDate;
+    if (Number(apiKeyCheckedDate) >= Date.now() - 86400000){  // yesterday
+      return 'today'
+    }else{
+      let lastDate = new Date(Number(apiKeyCheckedDate));
+      return 'on ' + lastDate.toLocaleDateString()
+    }
+  }
+
+  async snoozeNotifications(snoozedUntil) {
+    // Snooze notifications for 5 min at least, even with no clicks.
+    console.debug('Current "snoozedUntil": %s', snoozedUntil);
+    snoozedUntil = (Date.now() + 300*1000).toString(); // now + 5 minutes
+    await updateStorageField(this.storage, SETTINGS_KEY, 'snoozedUntil', snoozedUntil);
+    console.debug('Snoozed until %s [now + 5min]', (await this.storage.get(SETTINGS_KEY))[SETTINGS_KEY].snoozedUntil);
+  }
+
+  async initNotificationButtons() {
     // Firefox accepts no buttons on notifications. Too bad for it.
     try{
       if (!isFirefox && !chrome.notifications.onButtonClicked.hasListeners()){
         chrome.notifications.onButtonClicked.addListener(async (notificationId, buttonIndex) => {
           console.debug('Button clicked: [%s] %s', notificationId, buttonIndex);
-          if (notificationId != 'ingestError' || buttonIndex != 0){
+          if (buttonIndex != 0 || (
+              notificationId != 'ingestError'
+              && notificationId != 'connectionError'
+              && notificationId != 'serverError'
+              && notificationId != 'apikeyError')) {
             console.debug('No action for button %s click on notification %s', buttonIndex, notificationId);
             return
           }
+          // The button clicked is "Snooze until tomorrow". Lets handle it.
 
           let currentSnoozedUntil = (await this.storage.get(SETTINGS_KEY))[SETTINGS_KEY].snoozedUntil;
           console.debug('Current "snoozedUntil": %s', currentSnoozedUntil);
 
           let snoozedUntil = (Date.now() + 86400000).toString(); // now + 1 day
-          await updateStorageField(this.storage, SETTINGS_KEY, 'snoozedUntil', snoozedUntil)
+          await updateStorageField(this.storage, SETTINGS_KEY, 'snoozedUntil', snoozedUntil);
 
           console.debug('Snoozed until %s [now + 1day]', (await this.storage.get(SETTINGS_KEY))[SETTINGS_KEY].snoozedUntil);
         });
@@ -232,12 +392,24 @@ class PpdnsBackground {
     }catch{
       console.warn('Could not set onButtonClicked handlers');
     }
+  }
 
-    // Snooze notifications for 5 min at least, even with no clicks.
-    console.debug('Current "snoozedUntil": %s', snoozedUntil);
-    snoozedUntil = (Date.now() + 300*1000).toString(); // now + 5 minutes
-    await updateStorageField(this.storage, SETTINGS_KEY, 'snoozedUntil', snoozedUntil)
-    console.debug('Snoozed until %s [now + 5min]', (await this.storage.get(SETTINGS_KEY))[SETTINGS_KEY].snoozedUntil);
+  initNotificationClicks() {
+    try {
+      if (!chrome.notifications.onClicked.hasListeners()){
+        chrome.notifications.onClicked.addListener(async (notificationId) => {
+          console.debug('Notification clicked: %s', notificationId);
+          if (notificationId == 'apikeyError'){
+            let link =  'https://polyswarm.network/account/api-keys';
+            await chrome.tabs.create({ url: link }).then(
+              tab => { console.info('Tab opened in Polyswarm website: %s', tab); }
+            );
+          }
+        });
+      }
+    }catch {
+      console.warn('Could not set onClick handlers');
+    }
   }
 
   incrementResolutionCount(result) {

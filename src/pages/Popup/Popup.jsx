@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import logo from '../../assets/img/logo.svg';
 import './Popup.css';
-import { useSettingsStore } from '../../common/settings';
+import { SETTINGS_KEY, useSettingsStore, updateStorageField } from '../../common/settings';
 
 const Popup = () => {
   const [settings, setSettings] = useSettingsStore();
@@ -14,10 +14,12 @@ const Popup = () => {
       setValid(valid);
       settings.ingestSuccess = '';
       if (valid) {
+        let now = Date.now();
         return setSettings((prevState) => {
           return {
             ...prevState,
             apiKey: event.target.value,
+            apiKeyCheckedDate: now.toString(),
           };
         });
       }
@@ -66,8 +68,14 @@ const Popup = () => {
           {settings.resolutionsSubmittedCount && (
             <div className="resolutions">
               {settings.resolutionsSubmittedCount} total resolutions submitted
+              {settings.apiKeyCheckedDate && (
+                <div className="lastSubmission">
+                  (last submission was {getLastSuccessString(settings)})
+                </div>
+              )}
             </div>
           )}
+
           {settings.apiKey &&
             settings.apiKey.length &&
             settings.ingestSuccess == 'false' && (
@@ -92,13 +100,23 @@ async function validateAPIKey(apiKey, settings) {
     return false;
   }
 
-  return await fetch(`${settings.baseUrl}/v2/instance`, {
+  return await fetch(`${settings.baseUrl}/v3/public/accounts/whois`, {
     headers: {
       Authorization: apiKey,
     },
   })
-    .then((response) => response.ok)
+    .then((response) => { return response.ok })
     .catch((error) => console.error('error', error));
+}
+
+function getLastSuccessString(settings) {
+  let apiKeyCheckedDate = '0'+ settings.apiKeyCheckedDate;
+  if (Number(apiKeyCheckedDate) >= Date.now() - 86400000){  // yesterday
+    return 'today'
+  }else{
+    let lastDate = new Date(Number(apiKeyCheckedDate));
+    return 'on ' + lastDate.toLocaleDateString()
+  }
 }
 
 export default Popup;
