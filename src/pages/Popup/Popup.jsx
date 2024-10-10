@@ -78,7 +78,9 @@ const Popup = () => {
 
           {settings.apiKey &&
             settings.apiKey.length &&
-            settings.ingestSuccess == 'false' && (
+            settings.ingestSuccess == 'false' &&
+            settings.apiKeyCheckedDate != '0' &&
+            getLastSuccessString(settings) != 'today' &&(
               <div className="ingest-failure">
                 There was an issue submitting data. Have you joined the{' '}
                 <a
