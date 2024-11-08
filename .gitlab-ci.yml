@@ -29,7 +29,9 @@ default:
 .BUILD:
   stage: build
   tags:
-    - kube-new
+    - stage-kube-newer
+  variables:
+    DOCKER_HOST: tcp://dind-dind.ci.svc.cluster.local:2376
   script:
     # try to download the multi-stage dependant image and retag it as latest
     - e2e dependencies docker/Dockerfile
