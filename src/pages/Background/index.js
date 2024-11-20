@@ -127,7 +127,7 @@ class PpdnsBackground {
     if (apiKey === undefined || apiKey == '') {
       console.error('failed to get API key from local storage');
       this.submitInProgress = false;
-      this.storage.get(SETTINGS_KEY, this.ingestError.bind(this));
+      this.storage.get(SETTINGS_KEY, this.apikeyError.bind(this));
       return;
     }
 
