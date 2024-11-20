@@ -127,7 +127,7 @@ class PpdnsBackground {
     if (apiKey === undefined || apiKey == '') {
       console.error('failed to get API key from local storage');
       this.submitInProgress = false;
-      this.storage.get(SETTINGS_KEY, this.ingestError.bind(this));
+      this.storage.get(SETTINGS_KEY, this.apikeyError.bind(this));
       return;
     }
 
@@ -192,6 +192,13 @@ class PpdnsBackground {
     if (Number(snoozedUntil) >= Date.now()){
       // Snoozed.
       console.info('Notification: %s [snoozed until %s]', errorname, snoozedUntil);
+      return
+    }
+
+    let lastSuccess = await this.getLastSuccessString();
+    if (lastSuccess === 'today') {
+      // May be an intermitent issue. Do not bother the user.
+      console.info('Notification: %s [snoozed: last success %s]', errorname, lastSuccess);
       return
     }
 
