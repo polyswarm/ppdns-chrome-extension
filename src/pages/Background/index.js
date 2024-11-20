@@ -195,6 +195,13 @@ class PpdnsBackground {
       return
     }
 
+    let lastSuccess = await this.getLastSuccessString();
+    if (lastSuccess === 'today') {
+      // May be an intermitent issue. Do not bother the user.
+      console.info('Notification: %s [snoozed: last success %s]', errorname, lastSuccess);
+      return
+    }
+
     let message = ('Your telemetry data will be saved locally until you enter an API Key from your account settings.'
     + '\n\xa0\nClick here to open polyswarm.network/account/api-keys in a new tab');
 
